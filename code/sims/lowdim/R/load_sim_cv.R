@@ -15,12 +15,12 @@
 ## ---------------------------
 ##############################################################################################################################
 if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
-  setwd("~/Documents/Papers/vimpaper/sim_code/lowdim/")
+  setwd("~/vimpaper_supplement/code/sims/lowdim/")
   null <- 0
 }
 
 library(readr)
-source("~/Documents/Papers/vimextension/vimparameters/sim_code/vimext_simulation_helpers.R")
+source("~/vimpaper_supplement/code/sims/simulation_helper_functions.R")
 
 # get command line argument
 if (is.na(Sys.getenv("RSTUDIO", unset = NA))) {
@@ -42,8 +42,8 @@ get_current <- function(job_id) {
 ns <- c(100, 300, 500, 700, seq(1000, 10000, by = 1000))
 js <- c(1,2)
 
-hs.df <- read.csv("./code/oracle_bandwidths_fine_spread.csv")
-hs.df.2 <- read.csv("./code/oracle_bandwidths_fine_spread_smalln.csv")
+hs.df <- read.csv("../oracle_bandwidths_fine_spread.csv")
+hs.df.2 <- read.csv("../oracle_bandwidths_fine_spread_smalln.csv")
 hs.df.full.init <- rbind(hs.df, hs.df.2)
 hs.df.full <- hs.df.full.init[order(hs.df.full.init$n), ]
 
@@ -113,11 +113,6 @@ plotSummaryLowdim(output.lo, type = "bias", ylim = c(-2, 3), ests = c("Proposed"
                   cex = 1.5, cex.lab = 1.25, cex.axis = 1.25, lgnd.cex = 1)
 dev.off()
 
-# png("~/Dropbox/Projects/UW/F31/form/combined_aims_research_bib/bias_vs_n_tstep_lo_errors.png", width = fig.width, height = fig.height, units = "px", res = 300) # for F31
-# plotSummaryLowdim(output.lo, type = "bias", ylim = c(-7.5, 3), ests = c("Proposed", "Naive"), pch = list(c(16, 8), c(18, 9)),
-#                   lgnd.pch = c(16, 8, 16, 18), lgnd.txt = c("j = 1", "j = 2"), lgnd.col = c("blue", "red", "black", "black"), est.type = c("onestep", "naive"), plot.lgnd = FALSE)
-# dev.off()
-
 #############################
 ## coverage
 #############################
@@ -127,12 +122,6 @@ plotSummaryLowdim(output.lo, type = "coverage", ylim = c(0, 1), ests = c("Propos
                   lgnd.pos = "bottomright", lgnd.cex = 1,
                   cex = 1.5, cex.lab = 1.25, cex.axis = 1.25)
 dev.off()
-
-# png("~/Dropbox/Projects/UW/F31/form/combined_aims_research_bib/cover_vs_n_tstep_lo.png", width = fig.width, height = fig.height, units = "px", res = 300) # for F31
-# plotSummaryLowdim(output.lo.2, type = "coverage", ylim = c(0, 1), ests = c("Proposed", "Naive"), pch = list(c(16, 8), c(18, 9)),
-#                   lgnd.pch = c(16, 18, 16, 8), lgnd.txt = c("j = 1", "j = 2"), lgnd.col = c("blue", "red", "black", "black"), est.type = c("onestep", "naive"),
-#                   lgnd.pos = "right", lgnd.cex = 2)
-# dev.off()
 
 #############################
 ## mean squared error
