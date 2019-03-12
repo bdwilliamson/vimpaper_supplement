@@ -42,6 +42,15 @@ All analyses in this directory are run in Python. The necessary code for this an
 
 ### Reproducing Sections 3.3 and S4: experiments with a moderate-dimensional vector of features
 
-To reproduce the analyses, run the following code in sequence:
+To reproduce the analyses, first create a virtual environment (e.g., using `virtualenv`) within the `sims` directory and install the `vimpy` package. For example, if you already have `virtualenv` installed, you may run
+
+```
+virtualenv venv
+venv/bin/activate
+
+python pip install vimpy
+``` 
+
+Then run the following code in sequence:
 
 1. 
