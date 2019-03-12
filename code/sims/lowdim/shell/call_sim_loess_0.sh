@@ -1,3 +1,3 @@
 #!/bin/bash
 
-Rscript sim_loess_0.R $1
+Rscript ../R/sim_loess_0.R $1
