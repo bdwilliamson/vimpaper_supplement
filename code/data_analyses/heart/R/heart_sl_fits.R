@@ -76,6 +76,7 @@ if (names(heart)[1] == "row.names") {
 set.seed(4747)
 
 ## get correct one to remove based on id
+## change this if you are running locally or on a different system
 job.id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 
 rem.mat <- matrix(c(1, rep(NA, 5),

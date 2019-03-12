@@ -1,5 +1,4 @@
-#!/bin/sh
-#SBATCH -o iotrash/slurm-%A_%a.out
-#SBATCH -e iotrash/slurm-%A_%a.out
+#!/bin/bash
+module load R/3.4.2-foss-2016b-fh1 # edit this line for your particular cluster
 
 sbatch ./call_heart_full.sh

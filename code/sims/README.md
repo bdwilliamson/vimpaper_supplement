@@ -10,6 +10,8 @@ This README file provides an overview of the code available in the repository.
 
 All analyses in this directory are run in R. The necessary code for this analysis is located in `lowdim/R` and `lowdim/shell`. In these files, we assume that you use a Linux cluster with the Slurm batch scheduling system. If you use a difference batch scheduling system, the individual code files are flagged with the line where you can change batch variables. If you prefer to run the analyses locally, you may -- however, these analyses will then take a large amount of time.
 
+The true values of the parameter of interest may be calculated analytically.
+
 ### Reproducing Sections 3.1 and 3.2: experiments with a low-dimensional vector of features
 
 These analyses are run in R version 3.2.2. To reproduce the analyses, run the following code in sequence:
@@ -39,6 +41,8 @@ These analyses are run in R version 3.4.2. To reproduce the analyses, run the fo
 ## The `moddim` directory
 
 All analyses in this directory are run in Python 2.7. The necessary code for this analysis is located in `moddim/R` and `moddim/shell`. In these files, we assume that you use a Linux cluster with the Slurm batch scheduling system. If you use a difference batch scheduling system, the individual code files are flagged with the line where you can change batch variables. If you prefer to run the analyses locally, you may -- however, these analyses will then take a large amount of time.
+
+The true values of the parameter of interest may be calculated analytically in this section; however, it is a non-trivial task to do so. We computed the true values using Mathematica 11, and have saved the true values as .rds and .Rdata files in this directory.
 
 ### Reproducing Sections 3.3 and S4: experiments with a moderate-dimensional vector of features
 

@@ -20,7 +20,7 @@ library("SuperLearner")
 library("methods")
 
 ## load the heart data
-heart <- read.csv("heart.csv")
+heart <- read.csv("../heart.csv")
 
 ## create the Super Learner library
 create.SL.gbm <- function(tune = list(interaction.depth = 1, n.trees = c(100, 500, 1000), shrinkage = seq(.001, .3, .05))) {
@@ -82,7 +82,7 @@ full.fit <- predict(full)$pred
 saveRDS(full.fit, file = "heart_full_fit.Rdata")
 
 ## fit with CV
-set.seed(dim(Boston)[1])
+set.seed(dim(heart)[1])
 system.time(full.cv <- CV.SuperLearner(Y = heart$chd, X = x,
                                        cvControl = list(V = 10), family = binomial(), SL.library = learners))
 

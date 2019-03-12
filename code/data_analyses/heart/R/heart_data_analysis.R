@@ -10,80 +10,10 @@
 ##
 ## OUTPUTS:
 ##
-## UPDATES:
-## DDMMYY INIT COMMENTS
-## ------ ---- --------
-## 130317 BDW  Added plotting separately for groups and individual features
-## 050717 BDW  Updated directory structure; changed mention of "one-step" to "proposed"
-## 210717 BDW  Updated plots with higher resolution
-##             Updated to personal directory
 ############################################################################
-## load variable importance functions
-# setwd("C:/Users/Brian Williamson/Dropbox/Additive Models Project Summer 2015/manuscript/sa_heart_analysis")
-# setwd("C:/Users/brianw26/Dropbox/Additive Models Project Summer 2015/manuscript/sa_heart_analysis")
-setwd("~/Documents/Papers/vimpaper/sim_code/data_analyses/heart")
-
-# source("../../variableImportance.R")
-# source("../../variableImportanceSE.R")
-# source("../../variableImportanceIC.R")
-# source("../../variableImportanceCI.R")
-# source("../../variableImportanceIC.diagnose.R")
-# source("../../variableImportanceWinsor.R")
-# source("../../winsorize.R")
 ## load the super learner package, vimp package
 library("vimp")
 library("SuperLearner")
-
-# ## first boosted stumps
-# SL.gbm.1 <- function(..., interaction.depth = 1) SL.gbm(..., interaction.depth = interaction.depth)
-# # create.SL.gbm <- function(tune = list(interaction.depth = 1, n.trees = seq(100, 1500, 200), shrinkage = seq(.001, .3, .05))) {
-# #   tuneGrid <- expand.grid(tune, stringsAsFactors = FALSE)
-# #   for (mm in seq(nrow(tuneGrid))) {
-# #     eval(parse(file = "", text = paste("SL.gbm.", mm, "<- function(..., interaction.depth = ", tuneGrid[mm, 1], ", n.trees = ", tuneGrid[mm, 2], ", shrinkage = ", tuneGrid[mm, 3], ") SL.gbm(..., interaction.depth = interaction.depth, n.trees = n.trees, shrinkage = shrinkage)", sep = "")), envir = .GlobalEnv)
-# #   }
-# #   invisible(TRUE)
-# # }
-# # create.SL.gbm()
-# 
-# ## second add more degrees of freedom to gam fitting
-# SL.gam.3 <- function(..., deg.gam = 3) SL.gam(..., deg.gam = deg.gam)
-# SL.gam.4 <- function(..., deg.gam = 4) SL.gam(..., deg.gam = deg.gam)
-# SL.gam.5 <- function(..., deg.gam = 5) SL.gam(..., deg.gam = deg.gam)
-# 
-# ## add more levels of alpha for glmnet
-# create.SL.glmnet <- function(alpha = c(0.25, 0.5, 0.75)) {
-#   for (mm in seq(length(alpha))) {
-#     eval(parse(file = "", text = paste('SL.glmnet.', alpha[mm], '<- function(..., alpha = ', alpha[mm], ') SL.glmnet(..., alpha = alpha)', sep = '')), envir = .GlobalEnv)
-#   }
-#   invisible(TRUE)
-# }
-# create.SL.glmnet()
-# 
-# ## add different things for randomForest
-# create.SL.randomForest <- function(tune = list(mtry = c(1, 5, 7), nodesize = c(1, 5, 10))) {
-#   tuneGrid <- expand.grid(tune, stringsAsFactors = FALSE)
-#   for (mm in seq(nrow(tuneGrid))) {
-#     eval(parse(file = "", text = paste("SL.randomForest.", mm, "<- function(..., mtry = ", tuneGrid[mm, 1], ", nodesize = ", tuneGrid[mm, 2], ") SL.randomForest(..., mtry = mtry, nodesize = nodesize)", sep = "")), envir = .GlobalEnv)
-#   }
-#   invisible(TRUE)
-# }
-# create.SL.randomForest()
-# 
-# ## create the learners library
-# learners <- c("SL.gam", "SL.gam.3", "SL.gam.4", "SL.gam.5",
-#               "SL.glmnet", "SL.glmnet.0.25", "SL.glmnet.0.5", "SL.glmnet.0.75",
-#               "SL.randomForest", "SL.randomForest.1", "SL.randomForest.2", "SL.randomForest.3",
-#               "SL.randomForest.4", "SL.randomForest.5", "SL.randomForest.6", "SL.randomForest.7",
-#               "SL.randomForest.8", "SL.randomForest.9",
-#               "SL.gbm.1")
-# # learners.2 <- c("SL.gam", "SL.gam.3", "SL.gam.4", "SL.gam.5",
-# #               "SL.glmnet", "SL.glmnet.0.25", "SL.glmnet.0.5", "SL.glmnet.0.75",
-# #               "SL.randomForest", "SL.randomForest.1", "SL.randomForest.2", "SL.randomForest.3",
-# #               "SL.randomForest.4", "SL.randomForest.5", "SL.randomForest.6", "SL.randomForest.7",
-# #               "SL.randomForest.8", "SL.randomForest.9",
-# #               paste("SL.gbm.", seq(nrow(tuneGrid)), sep = ""))
-
-
 
 ############################################
 ## SA HEART DATA
@@ -91,7 +21,6 @@ library("SuperLearner")
 
 ## load the heart data
 heart <- read.csv("heart.csv", stringsAsFactors = FALSE)
-# View(heart)
 
 ## clean
 heart$famhist <- ifelse(heart$famhist == "Present", 1, 0)
@@ -129,54 +58,65 @@ n <- dim(heart)[1]
 y <- heart$chd
 
 
-####################################################
-## STANDARDIZED PARAMETER
-####################################################
+## ----------------------------------------------------
+## Compute point estimates, standard errors, CIs
+## ----------------------------------------------------
+sbp <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.sbp.fit, indx = 1, run_regression = FALSE)
+tob <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.tob.fit, indx = 2, run_regression = FALSE)
+ldl <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.ldl.fit, indx = 3, run_regression = FALSE)
+adi <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.adi.fit, indx = 4, run_regression = FALSE)
+fam <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.fam.fit, indx = 5, run_regression = FALSE)
+ta <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.ta.fit, indx = 6, run_regression = FALSE)
+ob <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.ob.fit, indx = 7, run_regression = FALSE)
+alc <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.alc.fit, indx = 8, run_regression = FALSE)
+age <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.age.fit, indx = 9, run_regression = FALSE)
+bios <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.bios.fit, indx = c(1, 3, 4, 7, 9), run_regression = FALSE)
+behav <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.behav.fit, indx = c(2, 5, 6, 8), run_regression = FALSE)
+
 ## Estimates (naive and onestep)
-## Estimates (naive and onestep)
-est.sbp.std <- variableImportance(full.fit, small.sbp.fit, y, n, TRUE, return_naive = TRUE)
-est.tob.std <- variableImportance(full.fit, small.tob.fit, y, n, TRUE, return_naive = TRUE)
-est.ldl.std <- variableImportance(full.fit, small.ldl.fit, y, n, TRUE, return_naive = TRUE)
-est.adi.std <- variableImportance(full.fit, small.adi.fit, y, n, TRUE, return_naive = TRUE)
-est.fam.std <- variableImportance(full.fit, small.fam.fit, y, n, TRUE, return_naive = TRUE)
-est.ta.std <- variableImportance(full.fit, small.ta.fit, y, n, TRUE, return_naive = TRUE)
-est.ob.std <- variableImportance(full.fit, small.ob.fit, y, n, TRUE, return_naive = TRUE)
-est.alc.std <- variableImportance(full.fit, small.alc.fit, y, n, TRUE, return_naive = TRUE)
-est.age.std <- variableImportance(full.fit, small.age.fit, y, n, TRUE, return_naive = TRUE)
-est.bios.std <- variableImportance(full.fit, small.bios.fit, y, n, TRUE, return_naive = TRUE)
-est.behav.std <- variableImportance(full.fit, small.behav.fit, y, n, TRUE, return_naive = TRUE)
+est.sbp.std <- cbind(sbp$est, sbp$naive)
+est.tob.std <- cbind(tob$est, tob$naive)
+est.ldl.std <- cbind(ldl$est, ldl$naive)
+est.adi.std <- cbind(adi$est, adi$naive)
+est.fam.std <- cbind(fam$est, fam$naive)
+est.ta.std <- cbind(ta$est, ta$naive)
+est.ob.std <- cbind(ob$est, ob$naive)
+est.alc.std <- cbind(alc$est, alc$naive)
+est.age.std <- cbind(age$est, age$naive)
+est.bios.std <- cbind(bios$est, bios$naive)
+est.behav.std <- cbind(behav$est, behav$naive)
 
 est.std <- rbind(est.sbp.std, est.tob.std, est.ldl.std, est.adi.std, est.fam.std, est.ta.std, est.ob.std, 
              est.alc.std, est.age.std, est.bios.std, est.behav.std)
 
 ## SEs
-se.sbp.std <- variableImportanceSE(full.fit, small.sbp.fit, y, n, TRUE)
-se.tob.std <- variableImportanceSE(full.fit, small.tob.fit, y, n, TRUE)
-se.ldl.std <- variableImportanceSE(full.fit, small.ldl.fit, y, n, TRUE)
-se.adi.std <- variableImportanceSE(full.fit, small.adi.fit, y, n, TRUE)
-se.fam.std <- variableImportanceSE(full.fit, small.fam.fit, y, n, TRUE)
-se.ta.std <- variableImportanceSE(full.fit, small.ta.fit, y, n, TRUE)
-se.ob.std <- variableImportanceSE(full.fit, small.ob.fit, y, n, TRUE)
-se.alc.std <- variableImportanceSE(full.fit, small.alc.fit, y, n, TRUE)
-se.age.std <- variableImportanceSE(full.fit, small.age.fit, y, n, TRUE)
-se.bios.std <- variableImportanceSE(full.fit, small.bios.fit, y, n, TRUE)
-se.behav.std <- variableImportanceSE(full.fit, small.behav.fit, y, n, TRUE)
+se.sbp.std <- sbp$se
+se.tob.std <- tob$se
+se.ldl.std <- ldl$se
+se.adi.std <- adi$se
+se.fam.std <- fam$se
+se.ta.std <- ta$se
+se.ob.std <- ob$se
+se.alc.std <- alc$se
+se.age.std <- age$se
+se.bios.std <- bios$se
+se.behav.std <- behav$se
 
 se.std <- c(se.sbp.std, se.tob.std, se.ldl.std, se.adi.std, se.fam.std, se.ta.std, se.ob.std,
             se.alc.std, se.age.std, se.bios.std, se.behav.std)
 
 ## CIs
-ci.sbp.std <- variableImportanceCI(est.sbp.std[2], se.sbp.std, n, level = 0.95)
-ci.tob.std <- variableImportanceCI(est.tob.std[2], se.tob.std, n, 0.95)
-ci.ldl.std <- variableImportanceCI(est.ldl.std[2], se.ldl.std, n, 0.95)
-ci.adi.std <- variableImportanceCI(est.adi.std[2], se.adi.std, n, 0.95)
-ci.fam.std <- variableImportanceCI(est.fam.std[2], se.fam.std, n, 0.95)
-ci.ta.std <- variableImportanceCI(est.ta.std[2], se.ta.std, n, 0.95)
-ci.ob.std <- variableImportanceCI(est.ob.std[2], se.ob.std, n, 0.95)
-ci.alc.std <- variableImportanceCI(est.alc.std[2], se.alc.std, n, 0.95)
-ci.age.std <- variableImportanceCI(est.age.std[2], se.age.std, n, 0.95)
-ci.bios.std <- variableImportanceCI(est.bios.std[2], se.bios.std, n, 0.95)
-ci.behav.std <- variableImportanceCI(est.behav.std[2], se.behav.std, n, 0.95)
+ci.sbp.std <- sbp$ci
+ci.tob.std <- tob$ci
+ci.ldl.std <- ldl$ci
+ci.adi.std <- adi$ci
+ci.fam.std <- fam$ci
+ci.ta.std <- ta$ci
+ci.ob.std <- ob$ci
+ci.alc.std <- alc$ci
+ci.age.std <- age$ci
+ci.bios.std <- bios$ci
+ci.behav.std <- behav$ci
 
 ci.std <- rbind(ci.sbp.std, ci.tob.std, ci.ldl.std, ci.adi.std, ci.fam.std, ci.ta.std, ci.ob.std, 
                 ci.alc.std, ci.age.std, ci.bios.std, ci.behav.std)

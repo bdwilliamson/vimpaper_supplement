@@ -1,6 +1,6 @@
 ############################################################################
 ##
-## FILE: housing_analysis_new_param.R
+## FILE: boston_analysis.R
 ##
 ## CREATED: 28 February 2017 by Brian Williamson
 ##
@@ -9,27 +9,8 @@
 ## INPUTS: Boston housing data from MASS package
 ##
 ## OUTPUTS:
-##
-## UPDATES:
-## DDMMYY INIT COMMENTS
-## ------ ---- --------
-## 130317 BDW  Added plots with grouped and individual features separate
-## 050717 BDW  Updated directory structure; changed mention of "one-step" to "proposed"
-## 210717 BDW  Updated plots with higher resolution
-##             Updated to personal directory
 ############################################################################
 ## load variable importance functions
-# setwd("C:/Users/Brian Williamson/Dropbox/Additive Models Project Summer 2015/manuscript")
-# setwd("C:/Users/brianw26/Dropbox/Additive Models Project Summer 2015/manuscript")
-setwd("~/Documents/Papers/vimpaper/sim_code/data_analyses/housing")
-
-# source("../../variableImportance.R")
-# source("../../variableImportanceSE.R")
-# source("../../variableImportanceIC.R")
-# source("../../variableImportanceCI.R")
-# source("../../variableImportanceIC.diagnose.R")
-# source("../../variableImportanceWinsor.R")
-# source("../../winsorize.R")
 library("vimp")
 
 
@@ -72,111 +53,95 @@ small.str.fit <- readRDS("output/small_fit_structure.Rdata")
 small.tax.fit <- readRDS("output/small_fit_tax.Rdata")
 small.zin.fit <- readRDS("output/small_fit_zn.Rdata")
 
-## check calibration
-mean(small.access.fit - full.fit)
-mean(small.access.fit - y)
-mean(small.age.fit - full.fit)
-mean(small.age.fit - y)
-mean(small.black.fit - full.fit)
-mean(small.black.fit - y)
-mean(small.chas.fit - full.fit)
-mean(small.chas.fit - y)
-mean(small.crim.fit - full.fit)
-mean(small.crim.fit - y)
-mean(small.dis.fit - full.fit)
-mean(small.dis.fit - y)
-mean(small.indus.fit - full.fit)
-mean(small.indus.fit - y)
-mean(small.lstat.fit - full.fit)
-mean(small.lstat.fit - y)
-mean(small.neigh.fit - full.fit)
-mean(small.neigh.fit - y)
-mean(small.ptratio.fit - full.fit)
-mean(small.ptratio.fit - y)
-mean(small.nox.fit - full.fit)
-mean(small.nox.fit - y)
-mean(small.rad.fit - full.fit)
-mean(small.rad.fit - y)
-mean(small.rm.fit - full.fit)
-mean(small.rm.fit - y)
-mean(small.str.fit - full.fit)
-mean(small.str.fit - y)
-mean(small.tax.fit - full.fit)
-mean(small.tax.fit - y)
-mean(small.zin.fit - full.fit)
-mean(small.zin.fit - y)
-
 ####################################################
-## STANDARDIZED PARAMETER
+## COMPUTE VARIABLE IMPORTANCE
 ####################################################
 ## removing all variables
-est.all <- variableImportance(full.fit, mean(y), y, n, TRUE)
+all <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = rep(mean(y), length(full.fit)), run_regression = FALSE)
+est.all <- all$est
+## individual/groups of variables
+access <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.access.fit, s = c(8, 9), run_regression = FALSE)
+age <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.age.fit, s = c(7), run_regression = FALSE)
+black <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.black.fit, s = c(12),  run_regression = FALSE)
+chas <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.chas.fit, s = c(4), run_regression = FALSE)
+crim <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.crim.fit, s = c(1), run_regression = FALSE)
+dis <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.dis.fit, s = c(8), run_regression = FALSE)
+indus <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.indus.fit, s = c(3), run_regression = FALSE)
+lstat <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.lstat.fit, s = c(13), run_regression = FALSE)
+neigh <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.neigh.fit, s = c(1, 2, 3, 4, 10, 11, 12, 13), run_regression = FALSE)
+ptratio <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.ptratio.fit, s = c(11), run_regression = FALSE)
+nox <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.nox.fit, s = c(5), run_regression = FALSE)
+rad <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.rad.fit, s = c(9), run_regression = FALSE)
+rm <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.rm.fit, s = c(6), run_regression = FALSE)
+str <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.str.fit, s = c(6, 7), run_regression = FALSE)
+tax <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.tax.fit, s = c(10), run_regression = FALSE)
+zin <- vimp::vimp_regression(Y = y, f1 = full.fit, f2 = small.zin.fit, s = c(2), run_regression = FALSE)
 
 ## Estimates (naive and onestep)
-est.access.std <- variableImportance(full.fit, small.access.fit, y, n, TRUE, return_naive = TRUE)
-est.age.std <- variableImportance(full.fit, small.age.fit, y, n, TRUE, return_naive = TRUE)
-est.black.std <- variableImportance(full.fit, small.black.fit, y, n, TRUE, return_naive = TRUE)
-est.chas.std <- variableImportance(full.fit, small.chas.fit, y, n, TRUE, return_naive = TRUE)
-est.crim.std <- variableImportance(full.fit, small.crim.fit, y, n, TRUE, return_naive = TRUE)
-est.dis.std <- variableImportance(full.fit, small.dis.fit, y, n, TRUE, return_naive = TRUE)
-est.indus.std <- variableImportance(full.fit, small.indus.fit, y, n, TRUE, return_naive = TRUE)
-est.lstat.std <- variableImportance(full.fit, small.lstat.fit, y, n, TRUE, return_naive = TRUE)
-est.neigh.std <- variableImportance(full.fit, small.neigh.fit, y, n, TRUE, return_naive = TRUE)
-est.ptratio.std <- variableImportance(full.fit, small.ptratio.fit, y, n, TRUE, return_naive = TRUE)
-est.nox.std <- variableImportance(full.fit, small.nox.fit, y, n, TRUE, return_naive = TRUE)
-est.rad.std <- variableImportance(full.fit, small.rad.fit, y, n, TRUE, return_naive = TRUE)
-est.rm.std <- variableImportance(full.fit, small.rm.fit, y, n, TRUE, return_naive = TRUE)
-est.str.std <- variableImportance(full.fit, small.str.fit, y, n, TRUE, return_naive = TRUE)
-est.tax.std <- variableImportance(full.fit, small.tax.fit, y, n, TRUE, return_naive = TRUE)
-est.zin.std <- variableImportance(full.fit, small.zin.fit, y, n, TRUE, return_naive = TRUE)
+est.access.std <- cbind(access$est, access$naive)
+est.age.std <- cbind(age$est, age$naive)
+est.black.std <- cbind(black$est, black$naive)
+est.chas.std <- cbind(chas$est, chas$naive)
+est.crim.std <- cbind(crim$est, crim$naive)
+est.dis.std <- cbind(dis$est, dis$naive)
+est.indus.std <- cbind(indus$est, indus$naive)
+est.lstat.std <- cbind(lstat$est, lstat$naive)
+est.neigh.std <- cbind(neigh$est, neigh$naive)
+est.ptratio.std <- cbind(ptratio$est, ptratio$naive)
+est.nox.std <- cbind(nox$est, nox$naive)
+est.rad.std <- cbind(rad$est, rad$naive)
+est.rm.std <- cbind(rm$est, rm$naive)
+est.str.std <- cbind(str$est, str$naive)
+est.tax.std <- cbind(tax$est, tax$naive)
+est.zin.std <- cbind(zin$est, zin$naive)
 
 est.std <- rbind(est.access.std, est.age.std, est.black.std, est.chas.std, est.crim.std, est.dis.std, est.indus.std, 
                  est.lstat.std, est.neigh.std, est.ptratio.std, est.nox.std,
                  est.rad.std, est.rm.std, est.str.std, est.tax.std, est.zin.std)
 
 ## SEs
-se.all <- variableImportanceSE(full.fit, mean(y), y, n, TRUE)
+se.all <- all$se
 
-se.access.std <- variableImportanceSE(full.fit, small.access.fit, y, n, TRUE)
-se.age.std <- variableImportanceSE(full.fit, small.age.fit, y, n, TRUE)
-se.black.std <- variableImportanceSE(full.fit, small.black.fit, y, n, TRUE)
-se.chas.std <- variableImportanceSE(full.fit, small.chas.fit, y, n, TRUE)
-se.crim.std <- variableImportanceSE(full.fit, small.crim.fit, y, n, TRUE)
-se.dis.std <- variableImportanceSE(full.fit, small.dis.fit, y, n, TRUE)
-se.indus.std <- variableImportanceSE(full.fit, small.indus.fit, y, n, TRUE)
-se.lstat.std <- variableImportanceSE(full.fit, small.lstat.fit, y, n, TRUE)
-se.neigh.std <- variableImportanceSE(full.fit, small.neigh.fit, y, n, TRUE)
-se.ptratio.std <- variableImportanceSE(full.fit, small.ptratio.fit, y, n, TRUE)
-se.nox.std <- variableImportanceSE(full.fit, small.nox.fit, y, n, TRUE)
-se.rad.std <- variableImportanceSE(full.fit, small.rad.fit, y, n, TRUE)
-se.rm.std <- variableImportanceSE(full.fit, small.rm.fit, y, n, TRUE)
-se.str.std <- variableImportanceSE(full.fit, small.str.fit, y, n, TRUE)
-se.tax.std <- variableImportanceSE(full.fit, small.tax.fit, y, n, TRUE)
-se.zin.std <- variableImportanceSE(full.fit, small.zin.fit, y, n, TRUE)
+se.access.std <- access$se
+se.age.std <- age$se
+se.black.std <- black$se
+se.chas.std <- chas$se
+se.crim.std <- crim$se
+se.dis.std <- dis$se
+se.indus.std <- indus$se
+se.lstat.std <- lstat$se
+se.neigh.std <- neigh$se
+se.ptratio.std <- ptratio$se
+se.nox.std <- nox$se
+se.rad.std <- rad$se
+se.rm.std <- rm$se
+se.str.std <- str$se
+se.tax.std <- tax$se
+se.zin.std <- zin$se
 
 se.std <- c(se.access.std, se.age.std, se.black.std, se.chas.std, se.crim.std, se.dis.std, se.indus.std,
             se.lstat.std, se.neigh.std, se.ptratio.std, se.nox.std,
             se.rad.std, se.rm.std, se.str.std, se.tax.std, se.zin.std)
 
 ## CIs
-ci.all <- variableImportanceCI(est.all[2], se.all, n, level = 0.95)
+ci.all <- all$ci
 
-ci.access.std <- variableImportanceCI(est.access.std[2], se.access.std, n, level = 0.95)
-ci.age.std <- variableImportanceCI(est.age.std[2], se.age.std, n, 0.95)
-ci.black.std <- variableImportanceCI(est.black.std[2], se.black.std, n, 0.95)
-ci.chas.std <- variableImportanceCI(est.chas.std[2], se.chas.std, n, 0.95)
-ci.crim.std <- variableImportanceCI(est.crim.std[2], se.crim.std, n, 0.95)
-ci.dis.std <- variableImportanceCI(est.dis.std[2], se.dis.std, n, 0.95)
-ci.indus.std <- variableImportanceCI(est.indus.std[2], se.indus.std, n, 0.95)
-ci.lstat.std <- variableImportanceCI(est.lstat.std[2], se.lstat.std, n, 0.95)
-ci.neigh.std <- variableImportanceCI(est.neigh.std[2], se.neigh.std, n, 0.95)
-ci.ptratio.std <- variableImportanceCI(est.ptratio.std[2], se.ptratio.std, n, 0.95)
-ci.nox.std <- variableImportanceCI(est.nox.std[2], se.nox.std, n, 0.95)
-ci.rad.std <- variableImportanceCI(est.rad.std[2], se.rad.std, n, 0.95)
-ci.rm.std <- variableImportanceCI(est.rm.std[2], se.rm.std, n, 0.95)
-ci.str.std <- variableImportanceCI(est.str.std[2], se.str.std, n, 0.95)
-ci.tax.std <- variableImportanceCI(est.tax.std[2], se.tax.std, n, 0.95)
-ci.zin.std <- variableImportanceCI(est.zin.std[2], se.zin.std, n, 0.95)
+ci.access.std <- access$ci
+ci.age.std <- age$ci
+ci.black.std <- black$ci
+ci.chas.std <- chas$ci
+ci.crim.std <- crim$ci
+ci.dis.std <- dis$ci
+ci.indus.std <- indus$ci
+ci.lstat.std <- lstat$ci
+ci.neigh.std <- neigh$ci
+ci.ptratio.std <- ptratio$ci
+ci.nox.std <- nox$ci
+ci.rad.std <- rad$ci
+ci.rm.std <- rm$ci
+ci.str.std <- str$ci
+ci.tax.std <- tax$ci
+ci.zin.std <- zin$ci
 
 ci.std <- rbind(ci.access.std, ci.age.std, ci.black.std, ci.chas.std, ci.crim.std, ci.dis.std, ci.indus.std, 
                 ci.lstat.std, ci.neigh.std, ci.ptratio.std, ci.nox.std,

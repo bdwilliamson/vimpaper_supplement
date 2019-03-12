@@ -1,0 +1,2610 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[    119588,       2601]
+NotebookOptionsPosition[    117264,       2535]
+NotebookOutlinePosition[    117648,       2552]
+CellTagsIndexPosition[    117605,       2549]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+     "Calculate", " ", "the", " ", "truth", " ", "for", " ", "the", " ", 
+      "higher"}], "-", 
+     RowBox[{"dimension", " ", 
+      RowBox[{"simulation", ".", " ", "\[IndentingNewLine]", "Created"}], "  ",
+       "21", " ", "July", " ", "2016", " ", "by", " ", "Brian", " ", 
+      "Williamson", " ", "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{"UPDATES", ":", "\[IndentingNewLine]", 
+       RowBox[{
+       "DDMMYY", " ", "INIT", " ", "COMMENTS", "\[IndentingNewLine]", 
+        "140816", " ", "BDW", " ", "Changed", " ", "the", " ", "true", " ", 
+        "functions", " ", "to", " ", "a", " ", "triangular", " ", 
+        "array"}]}]}]}], ",", " ", 
+    RowBox[{"as", " ", "discussed", " ", "in", " ", 
+     RowBox[{"meeting", ".", "\[IndentingNewLine]", "  ", "300816"}], " ", 
+     "BDW", " ", "Changed", " ", "calculated", " ", "values", " ", "to", " ", 
+     "match", " ", "the", " ", "new", " ", 
+     RowBox[{"functions", "."}]}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "The", " ", "functions", " ", "for", " ", "all", " ", "settings", " ", 
+    RowBox[{"are", ":", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"x1sin", 
+       RowBox[{"(", "x1", ")"}]}], " ", "+", " ", 
+      RowBox[{"x2sin", 
+       RowBox[{"(", 
+        RowBox[{"2", "x2"}], ")"}]}], " ", "+", " ", 
+      RowBox[{"x3sin", 
+       RowBox[{"(", 
+        RowBox[{"3", "x3"}], ")"}]}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"x6", "^", "2"}], "sin", 
+       RowBox[{"(", "x6", ")"}]}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"x7", "^", "2"}], "sin", 
+       RowBox[{"(", 
+        RowBox[{"2", "x7"}], ")"}]}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"x11", "^", "3"}], "sin", 
+       RowBox[{"(", "x11", ")"}], "\[IndentingNewLine]", "Only", " ", "these",
+        " ", "six", " ", 
+       RowBox[{"matter", "!"}]}]}]}]}], "\[IndentingNewLine]", "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "First", " ", "calculate", " ", "the", " ", "actual", " ", "effect", " ", 
+    "size", " ", "for", " ", "each", " ", "group"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    FractionBox["4", 
+     SuperscriptBox["\[ExponentialE]", "2"]], ",", " ", 
+    RowBox[{"approx", " ", ".54"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"f1", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"x", "/", "2"}], "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f2", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{"Cos", "[", "x", "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f3", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"2", "*", "x"}], "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f6", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"Abs", "[", 
+      RowBox[{"x", "/", "4"}], "]"}], "^", "3"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f7", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"Abs", "[", 
+      RowBox[{"x", "/", "4"}], "]"}], "^", "5"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f11", "[", "x_", "]"}], " ", ":=", " ", 
+    RowBox[{"x", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"x", "*", 
+       RowBox[{"2", "/", "3"}]}], "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X1:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["1", 
+     SqrtBox["\[ExponentialE]"]], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"expec1", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f1", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X2:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["1", 
+     SuperscriptBox["\[ExponentialE]", "2"]], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"expec2", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f2", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X3:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["1", 
+     SuperscriptBox["\[ExponentialE]", "8"]], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"expec3", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f3", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X6:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["1", 
+     RowBox[{"2", " ", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}]], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"expec6", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f6", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X7:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["1", 
+     RowBox[{"2", " ", 
+      SqrtBox[
+       RowBox[{"2", " ", "\[Pi]"}]]}]], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"expec7", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f7", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Expectation of X11:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox["8", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{"8", "/", "9"}]]}]], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"expec11", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"f11", "[", "x", "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"funcGroup1", " ", "[", 
+     RowBox[{
+     "x1_", ",", " ", "x2_", ",", "  ", "x3_", ",", " ", "e1_", ",", " ", 
+      "e2_", ",", " ", "e3_"}], "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+       RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+       RowBox[{"f3", "[", "x3", "]"}], "  ", "-", " ", 
+       RowBox[{"(", 
+        RowBox[{"e1", " ", "+", " ", "e2", " ", "+", " ", "e3"}], " ", 
+        ")"}]}], ")"}], "^", "2"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Effect size group 1:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox[
+     RowBox[{"1", "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", "16"], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "2"}], "+", 
+         RowBox[{
+          SuperscriptBox["\[ExponentialE]", "8"], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "-", 
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", "4"]}], "+", 
+            SuperscriptBox["\[ExponentialE]", "6"], "-", 
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", "7"]}], "+", 
+            RowBox[{"3", " ", 
+             SuperscriptBox["\[ExponentialE]", "8"]}]}], ")"}]}]}], ")"}]}]}], 
+     RowBox[{"2", " ", 
+      SuperscriptBox["\[ExponentialE]", "32"]}]], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"effectSizeGroup1", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup1", "[", 
+       RowBox[{
+       "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "expec1", ",", " ", 
+        "expec2", ",", " ", "expec3"}], "]"}], ",", " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x1", ",", " ", "x2", ",", " ", "x3"}], "}"}], ",", " ", 
+        RowBox[{"MultinormalDistribution", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"4", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "4", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "0", ",", " ", "4"}], "}"}]}], "}"}]}], 
+         "]"}]}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"funcGroup2", "[", 
+     RowBox[{"x6_", ",", " ", "x7_", ",", " ", "e6_", ",", " ", "e7_"}], 
+     "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+       RowBox[{"f7", "[", "x7", "]"}], "-", " ", 
+       RowBox[{"(", 
+        RowBox[{"e6", " ", "+", " ", "e7"}], ")"}]}], ")"}], "^", "2"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Effect size group 2:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     FractionBox["1185", "1024"], "-", 
+     FractionBox["1", 
+      RowBox[{"4", " ", "\[Pi]"}]]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"effectSizeGroup2", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup2", "[", 
+       RowBox[{"x6", ",", " ", "x7", ",", " ", "expec6", ",", " ", "expec7"}],
+        "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x6", ",", " ", "x7"}], "}"}], ",", " ", 
+        RowBox[{"MultinormalDistribution", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"4", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "4"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}],
+      "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"funcGroup3", "[", 
+     RowBox[{"x11_", ",", " ", "e11_"}], "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", "e11"}], ")"}], "^", 
+     "2"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<Effect size group 3:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     FractionBox["2", "9"], " ", 
+     RowBox[{"(", 
+      RowBox[{"9", "+", 
+       FractionBox["55", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"32", "/", "9"}]]], "-", 
+       FractionBox["32", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"16", "/", "9"}]]]}], ")"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"effectSizeGroup3", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup3", "[", 
+       RowBox[{"x11", ",", " ", "expec11"}], "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x11", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Setting", " ", 
+     RowBox[{"A", ":", " ", 
+      RowBox[{"all", " ", "independent"}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"15", " ", "independent", " ", "normals"}], ",", " ", 
+     RowBox[{"mean", " ", "zero"}], ",", " ", 
+     RowBox[{"sd", " ", "2"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"A", ".1"}], ":", " ", 
+     RowBox[{
+     "Removing", " ", "the", " ", "11", "th", " ", "column", " ", "only", " ", 
+      RowBox[{"(", 
+       RowBox[{
+       "this", " ", "is", " ", "the", " ", "last", " ", "one", " ", "that", 
+        " ", "truly", " ", "matters"}], ")"}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"truth", " ", "is", " ", "effectSizeGroup3"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<A.1: Removing column 11 only:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"truthA1", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup3", "[", 
+       RowBox[{"x11", ",", " ", "expec11"}], "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x11", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"A", ".2"}], ":", " ", 
+     RowBox[{"Removing", " ", "1"}], ":", "5"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"first", " ", "the", " ", "individual", " ", "expectations"}], 
+      ";", " ", 
+      RowBox[{"since", " ", "they", " ", "are", " ", "independent"}]}], ",", 
+     " ", 
+     RowBox[{"we", " ", "can", " ", "break", " ", "things", " ", "apart"}]}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "also", " ", "only", " ", "need", " ", "three", " ", "since", " ", "only",
+      " ", "three", " ", "functions", " ", "matter"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "truth", " ", "is", " ", "just", " ", "the", " ", "effect", " ", "size", 
+     " ", "of", " ", "group", " ", "1"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    FractionBox[
+     RowBox[{"1", "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", "16"], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", "2"}], "+", 
+         RowBox[{
+          SuperscriptBox["\[ExponentialE]", "8"], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "-", 
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", "4"]}], "+", 
+            SuperscriptBox["\[ExponentialE]", "6"], "-", 
+            RowBox[{"2", " ", 
+             SuperscriptBox["\[ExponentialE]", "7"]}], "+", 
+            RowBox[{"3", " ", 
+             SuperscriptBox["\[ExponentialE]", "8"]}]}], ")"}]}]}], ")"}]}]}], 
+     RowBox[{"2", " ", 
+      SuperscriptBox["\[ExponentialE]", "32"]}]], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<A.2: Removing columns 1-5:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"truthA2", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup1", "[", 
+       RowBox[{
+       "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "expec1", ",", " ", 
+        "expec2", ",", " ", "expec3"}], "]"}], ",", " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x1", ",", " ", "x2", ",", " ", "x3"}], "}"}], ",", " ", 
+        RowBox[{"MultinormalDistribution", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"4", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "4", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "0", ",", " ", "4"}], "}"}]}], "}"}]}], 
+         "]"}]}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"A", ".3"}], ":", " ", 
+     RowBox[{"Removing", " ", "6"}], ":", "10"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "truth", " ", "is", " ", "just", " ", "effect", " ", "size", " ", "of", 
+     " ", "group", " ", "2"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     FractionBox["1185", "1024"], "-", 
+     FractionBox["1", 
+      RowBox[{"4", " ", "\[Pi]"}]]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<A.3: Removing columns 6-10:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"truthA3", " ", "=", "  ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup2", "[", 
+       RowBox[{"x6", ",", " ", "x7", ",", " ", "expec6", ",", " ", "expec7"}],
+        "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"x6", ",", " ", "x7"}], "}"}], ",", " ", 
+        RowBox[{"MultinormalDistribution", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", " ", "0"}], "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"4", ",", " ", "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", " ", "4"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}],
+      "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"A", ".4"}], ":", " ", 
+     RowBox[{"Removing", " ", "11"}], ":", "15"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "truth", " ", "is", " ", "effect", " ", "size", " ", "of", " ", "group", 
+     " ", "3"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     FractionBox["2", "9"], " ", 
+     RowBox[{"(", 
+      RowBox[{"9", "+", 
+       FractionBox["55", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"32", "/", "9"}]]], "-", 
+       FractionBox["32", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{"16", "/", "9"}]]]}], ")"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<A.4: Removing columns 11-15:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"truthA4", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcGroup3", "[", 
+       RowBox[{"x11", ",", " ", "expec11"}], "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{"x11", ",", " ", 
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"0", ",", " ", "2"}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"A", ".5"}], ":", " ", 
+      RowBox[{
+       RowBox[{"Removing", " ", "1"}], "-", "3"}]}], ",", " ", 
+     RowBox[{"6", "-", "7"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"truth", " ", "is", " ", 
+       FractionBox["2721", "1024"]}], "+", 
+      FractionBox["1", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[ExponentialE]", "32"]}]], "-", 
+      FractionBox["1", 
+       SuperscriptBox["\[ExponentialE]", "16"]], "+", 
+      FractionBox["1", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[ExponentialE]", "8"]}]], "-", 
+      FractionBox["1", 
+       SuperscriptBox["\[ExponentialE]", "4"]], "+", 
+      FractionBox["1", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["\[ExponentialE]", "2"]}]], "-", 
+      FractionBox["1", "\[ExponentialE]"], "-", 
+      FractionBox["1", 
+       RowBox[{"4", " ", "\[Pi]"}]]}], ",", " ", 
+     RowBox[{
+     "approx", " ", 
+      "2.259289271290965044916386802240855841863404546173566857025"}]}], " ", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", "\"\<A.5: Removing columns 1-3, 6-7:\>\"", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"funcA5", "[", 
+     RowBox[{
+     "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", ",", " ", 
+      "x7_", ",", " ", "e1_", ",", " ", "e2_", ",", "  ", "e3_", ",", " ", 
+      "e6_", ",", " ", "e7_"}], "]"}], " ", ":=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+       RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+       RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+       RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+       RowBox[{"f7", "[", "x7", "]"}], "-", " ", 
+       RowBox[{"(", 
+        RowBox[{
+        "e1", " ", "+", " ", "e2", "+", " ", "e3", " ", "+", " ", "e6", "+", 
+         " ", "e7"}], ")"}]}], ")"}], "^", "2"}]}], " ", 
+   "\[IndentingNewLine]", 
+   RowBox[{"truthA5", " ", "=", " ", 
+    RowBox[{"Expectation", "[", 
+     RowBox[{
+      RowBox[{"funcA5", "[", 
+       RowBox[{
+       "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ", "x7", 
+        ",", " ", "expec1", ",", " ", "expec2", ",", " ", "expec3", ",", " ", 
+        "expec6", ",", " ", "expec7"}], "]"}], ",", " ", 
+      RowBox[{"Distributed", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ", 
+          "x7"}], "}"}], ",", " ", 
+        RowBox[{"MultinormalDistribution", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+           "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", "0"}], 
+           "}"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+             "4", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", 
+              "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{
+             "0", ",", " ", "4", ",", " ", "0", ",", " ", "0", ",", " ", 
+              "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{
+             "0", ",", " ", "0", ",", " ", "4", ",", " ", "0", ",", " ", 
+              "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{
+             "0", ",", " ", "0", ",", " ", "0", ",", " ", "4", ",", " ", 
+              "0"}], "}"}], ",", " ", 
+            RowBox[{"{", 
+             RowBox[{
+             "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", 
+              "4"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Setting", " ", 
+     RowBox[{"B", ":", " ", 
+      RowBox[{"groups", " ", "of", " ", "dependent"}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"First", " ", "group", " ", "of", " ", "5"}], ":", " ", 
+     RowBox[{"multivariate", " ", "N", 
+      RowBox[{"(", 
+       RowBox[{"0", ",", " ", 
+        RowBox[{"matrix", 
+         RowBox[{"{", "0.15", "}"}], " ", "with", " ", "diag", " ", "1"}]}], 
+       ")"}], "\[IndentingNewLine]", "Second", " ", "group", " ", "of", " ", 
+      "5"}], ":", " ", 
+     RowBox[{"multivariate", " ", "N", 
+      RowBox[{"(", 
+       RowBox[{"3", ",", " ", 
+        RowBox[{"matrix", 
+         RowBox[{"(", "0.5", ")"}], " ", "with", " ", "diag", " ", "1"}]}], 
+       ")"}], "\[IndentingNewLine]", "Third", " ", "group", " ", "of", " ", 
+      "5"}], ":", " ", 
+     RowBox[{"multivariate", " ", "N", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "2"}], ",", " ", 
+        RowBox[{"matrix", 
+         RowBox[{"(", "0.85", ")"}], " ", "with", " ", "diag", " ", "1"}]}], 
+       ")"}]}]}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"B", ".1"}], ":", " ", 
+     RowBox[{
+     "Removing", " ", "only", " ", "the", " ", "11", "th", " ", "column"}]}], 
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"expecB1", "[", 
+      RowBox[{
+      "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", ",", " ", 
+       "x7_"}], "]"}], " ", ":=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Expectation", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+          RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+          RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+          RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+          RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+          RowBox[{"f11", "[", "x", "]"}]}], ",", " ", 
+         RowBox[{"Distributed", "[", 
+          RowBox[{
+           RowBox[{"{", "x", "}"}], ",", " ", 
+           RowBox[{"NormalDistribution", "[", 
+            RowBox[{
+             RowBox[{"-", "2"}], ",", " ", "1"}], "]"}]}], "]"}]}], "]"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", "\"\<B.1: Removing 11th column only:\>\"", "]"}],
+        "\[IndentingNewLine]", 
+       RowBox[{"funcB1", "[", 
+        RowBox[{
+        "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", ",", " ", 
+         "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+           RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+           RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+           RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+           RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+           RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+           RowBox[{"expecB1", "[", 
+            RowBox[{
+            "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ", 
+             "x7"}], "]"}]}], ")"}], "^", "2"}], "\[IndentingNewLine]", 
+        "truthB1"}], " ", "=", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Expectation", "[", 
+          RowBox[{
+           RowBox[{"funcB1", "[", 
+            RowBox[{
+            "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ", 
+             "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+           RowBox[{"Distributed", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+              "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ", 
+               "x7", ",", " ", "x11"}], "}"}], ",", "  ", 
+             RowBox[{"MultinormalDistribution", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", " ", 
+                 "3", ",", " ", 
+                 RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{
+                  "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",", 
+                   " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                 RowBox[{"{", 
+                  RowBox[{
+                  ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",", 
+                   " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                 RowBox[{"{", 
+                  RowBox[{
+                  ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",", 
+                   " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                 RowBox[{"{", 
+                  RowBox[{
+                  "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", " ", 
+                   ".5", ",", " ", "0"}], "}"}], ",", " ", 
+                 RowBox[{"{", 
+                  RowBox[{
+                  "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", " ",
+                    "1", ",", " ", "0"}], "}"}], ",", " ", 
+                 RowBox[{"{", 
+                  RowBox[{
+                  "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", 
+                   "0", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}], 
+          "]"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"B", ".2"}], ":", " ", 
+           RowBox[{"Removing", " ", "1"}], ":", "5"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"expecB2", "[", 
+          RowBox[{"x6_", ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=",
+         " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Expectation", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+             RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+             RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+             RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+             RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+             RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+            RowBox[{"Distributed", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"x1", ",", " ", "x2", ",", " ", "x3"}], "}"}], ",", 
+              " ", 
+              RowBox[{"MultinormalDistribution", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", " ", ".15", ",", " ", ".15"}], "}"}], 
+                  ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{".15", ",", " ", "1", ",", " ", ".15"}], "}"}], 
+                  ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{".15", ",", " ", ".15", ",", " ", "1"}], "}"}]}], 
+                 "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+          RowBox[{"funcB2", "[", 
+           RowBox[{
+           "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", ",", " ",
+             "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", " ", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+              RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+              RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+              RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+              RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+              RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+              RowBox[{"expecB2", "[", " ", 
+               RowBox[{"x6", ",", " ", "x7", ",", " ", "x11"}], "]"}]}], 
+             ")"}], "^", "2"}], "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", "\"\<B.2: Removing columns 1-5:\>\"", "]"}], 
+           "\[IndentingNewLine]", "truthB2"}], " ", "=", "  ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Expectation", "[", 
+             RowBox[{
+              RowBox[{"funcB2", "[", 
+               RowBox[{
+               "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", " ",
+                 "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+              RowBox[{"Distributed", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                 "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", 
+                  " ", "x7", ",", " ", "x11"}], "}"}], ",", "  ", 
+                RowBox[{"MultinormalDistribution", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                   "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", " ",
+                     "3", ",", " ", 
+                    RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", 
+                    " ", ".5", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", 
+                    " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+               "]"}]}], "]"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"(*", " ", 
+             RowBox[{
+              RowBox[{"B", ".3"}], ":", " ", 
+              RowBox[{"Removing", " ", "6"}], ":", "10"}], " ", "*)"}], 
+            "\[IndentingNewLine]", 
+            RowBox[{"expecB3", "[", 
+             RowBox[{
+             "x1_", ",", " ", "x2_", ",", " ", "x3_", " ", ",", " ", "x11_"}],
+              "]"}]}], " ", ":=", " ", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Expectation", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+               RowBox[{"Distributed", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"x6", ",", " ", "x7"}], "}"}], ",", " ", 
+                 RowBox[{"MultinormalDistribution", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"3", ",", " ", "3"}], "}"}], ",", " ", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".5"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".5", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+                "]"}]}], "]"}], "\[IndentingNewLine]", 
+             RowBox[{"funcB3", "[", 
+              RowBox[{
+              "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", ",", 
+               " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", " ", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                 RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                 RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                 RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                 RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                 RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                 RowBox[{"expecB3", "[", " ", 
+                  RowBox[{
+                  "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x11"}], 
+                  "]"}]}], ")"}], "^", "2"}], "\[IndentingNewLine]", 
+              RowBox[{
+              "Print", "[", "\"\<B.3: Removing columns 6-10:\>\"", "]"}], 
+              "\[IndentingNewLine]", "truthB3"}], " ", "=", "  ", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Expectation", "[", 
+                RowBox[{
+                 RowBox[{"funcB3", "[", 
+                  RowBox[{
+                  "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",", 
+                   " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                 RowBox[{"Distributed", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", "  ", 
+                   RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", 
+                    " ", "3", ",", " ", 
+                    RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", 
+                    " ", ".5", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", 
+                    " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+                  "]"}]}], "]"}], "\[IndentingNewLine]", 
+               "\[IndentingNewLine]", 
+               RowBox[{"(*", " ", 
+                RowBox[{
+                 RowBox[{"B", ".4"}], ":", " ", 
+                 RowBox[{"Removing", " ", "11"}], ":", "15"}], " ", "*)"}], 
+               "\[IndentingNewLine]", 
+               RowBox[{"expecB4", "[", 
+                RowBox[{
+                "x1_", ",", " ", "x2_", ",", " ", "x3_", " ", ",", " ", "x6_",
+                  ",", " ", "x7_"}], "]"}]}], " ", ":=", " ", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Expectation", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                   RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                   RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                   RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                   RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                   RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                  RowBox[{"Distributed", "[", 
+                   RowBox[{
+                    RowBox[{"{", "x11", "}"}], ",", " ", 
+                    RowBox[{"NormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"-", "2"}], ",", " ", "1"}], "]"}]}], "]"}]}], 
+                 "]"}], "\[IndentingNewLine]", 
+                RowBox[{"funcB4", "[", 
+                 RowBox[{
+                 "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                  ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+               " ", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecB4", "[", " ", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", ",", " ", "x3", ",", " ", "x6",
+                     ",", " ", "x7"}], "]"}]}], ")"}], "^", "2"}], 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                 "Print", "[", "\"\<B.4: Removing columns 11-15:\>\"", "]"}], 
+                 "\[IndentingNewLine]", "truthB4"}], " ", "=", "  ", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Expectation", "[", 
+                   RowBox[{
+                    RowBox[{"funcB4", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", "  ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", 
+                    " ", "3", ",", " ", 
+                    RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", 
+                    " ", ".5", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", 
+                    " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+                    "]"}]}], "]"}], "\[IndentingNewLine]", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"(*", " ", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"B", ".5"}], ":", " ", 
+                    RowBox[{
+                    RowBox[{"Removing", " ", "1"}], "-", "3"}]}], ",", " ", 
+                    RowBox[{"6", "-", "7"}]}], " ", "*)"}], 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"expecB5", "[", "x11_", "]"}]}], " ", ":=", " ", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7"}], "}"}], ",", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", 
+                    " ", "3"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",",
+                     " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", 
+                    " ", ".5"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", 
+                    " ", "1"}], "}"}]}], "}"}]}], "]"}]}], "]"}]}], "]"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"funcB5", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                  " ", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecB5", "[", " ", "x11", "]"}]}], ")"}], "^", 
+                    "2"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<B.5: Removing columns 11-15:\>\"", 
+                    "]"}], "\[IndentingNewLine]", "truthB5"}], " ", "=", "  ", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcB5", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", "  ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "3", ",", 
+                    " ", "3", ",", " ", 
+                    RowBox[{"-", "2"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "1", ",", " ", ".15", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", "1", ",", " ", ".15", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    ".15", ",", " ", ".15", ",", " ", "1", ",", " ", "0", ",",
+                     " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "1", ",", 
+                    " ", ".5", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", ".5", ",", 
+                    " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "1"}], "}"}]}], "}"}]}], "]"}]}], 
+                    "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{"Setting", " ", 
+                    RowBox[{"C", ":", " ", 
+                    RowBox[{"all", " ", "dependent"}]}]}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{"Multivariate", " ", "normal"}], ",", " ", 
+                    RowBox[{
+                    "covariance", " ", "generated", " ", "by", " ", "an", " ",
+                     "autocorrelation", " ", "function"}], ",", " ", 
+                    RowBox[{"mean", " ", "0"}]}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{"Values", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"are", " ", "[", 
+                    RowBox[{",", "1"}], "]"}], "[", 
+                    RowBox[{",", "2"}], "]"}], "[", 
+                    RowBox[{",", "3"}], "]"}], "[", 
+                    RowBox[{",", "4"}], "]"}], "[", 
+                    RowBox[{",", "5"}], "]"}], "[", 
+                    RowBox[{",", "6"}], "]"}], "[", 
+                    RowBox[{",", "7"}], "]"}], "[", 
+                    RowBox[{",", "8"}], "]"}], "[", 
+                    RowBox[{",", "9"}], "]"}], "\n", "[", 
+                    RowBox[{"1", ","}], "]"}], " ", "1.0000000", " ", 
+                    "0.9000000", " ", "0.8100000", " ", "0.7290000", " ", 
+                    "0.6561000", " ", "0.5904900", " ", "0.5314410", " ", 
+                    "0.4782969", " ", 
+                    RowBox[{"0.4304672", "\n", "[", 
+                    RowBox[{"2", ","}], "]"}], " ", "0.9000000", " ", 
+                    "1.0000000", " ", "0.9000000", " ", "0.8100000", " ", 
+                    "0.7290000", " ", "0.6561000", " ", "0.5904900", " ", 
+                    "0.5314410", " ", 
+                    RowBox[{"0.4782969", "\n", "[", 
+                    RowBox[{"3", ","}], "]"}], " ", "0.8100000", " ", 
+                    "0.9000000", " ", "1.0000000", " ", "0.9000000", " ", 
+                    "0.8100000", " ", "0.7290000", " ", "0.6561000", " ", 
+                    "0.5904900", " ", 
+                    RowBox[{"0.5314410", "\n", "[", 
+                    RowBox[{"4", ","}], "]"}], " ", "0.7290000", " ", 
+                    "0.8100000", " ", "0.9000000", " ", "1.0000000", " ", 
+                    "0.9000000", " ", "0.8100000", " ", "0.7290000", " ", 
+                    "0.6561000", " ", 
+                    RowBox[{"0.5904900", "\n", "[", 
+                    RowBox[{"5", ","}], "]"}], " ", "0.6561000", " ", 
+                    "0.7290000", " ", "0.8100000", " ", "0.9000000", " ", 
+                    "1.0000000", " ", "0.9000000", " ", "0.8100000", " ", 
+                    "0.7290000", " ", 
+                    RowBox[{"0.6561000", "\n", "[", 
+                    RowBox[{"6", ","}], "]"}], " ", "0.5904900", " ", 
+                    "0.6561000", " ", "0.7290000", " ", "0.8100000", " ", 
+                    "0.9000000", " ", "1.0000000", " ", "0.9000000", " ", 
+                    "0.8100000", " ", 
+                    RowBox[{"0.7290000", "\n", "[", 
+                    RowBox[{"7", ","}], "]"}], " ", "0.5314410", " ", 
+                    "0.5904900", " ", "0.6561000", " ", "0.7290000", " ", 
+                    "0.8100000", " ", "0.9000000", " ", "1.0000000", " ", 
+                    "0.9000000", " ", 
+                    RowBox[{"0.8100000", "\n", "[", 
+                    RowBox[{"8", ","}], "]"}], " ", "0.4782969", " ", 
+                    "0.5314410", " ", "0.5904900", " ", "0.6561000", " ", 
+                    "0.7290000", " ", "0.8100000", " ", "0.9000000", " ", 
+                    "1.0000000", " ", 
+                    RowBox[{"0.9000000", "\n", "[", 
+                    RowBox[{"9", ","}], "]"}], " ", "0.4304672", " ", 
+                    "0.4782969", " ", "0.5314410", " ", "0.5904900", " ", 
+                    "0.6561000", " ", "0.7290000", " ", "0.8100000", " ", 
+                    "0.9000000", " ", 
+                    RowBox[{"1.0000000", "\n", "[", 
+                    RowBox[{"10", ","}], "]"}], " ", "0.3874205", " ", 
+                    "0.4304672", " ", "0.4782969", " ", "0.5314410", " ", 
+                    "0.5904900", " ", "0.6561000", " ", "0.7290000", " ", 
+                    "0.8100000", " ", 
+                    RowBox[{"0.9000000", "\n", "[", 
+                    RowBox[{"11", ","}], "]"}], " ", "0.3486784", " ", 
+                    "0.3874205", " ", "0.4304672", " ", "0.4782969", " ", 
+                    "0.5314410", " ", "0.5904900", " ", "0.6561000", " ", 
+                    "0.7290000", " ", 
+                    RowBox[{"0.8100000", "\n", "[", 
+                    RowBox[{"12", ","}], "]"}], " ", "0.3138106", " ", 
+                    "0.3486784", " ", "0.3874205", " ", "0.4304672", " ", 
+                    "0.4782969", " ", "0.5314410", " ", "0.5904900", " ", 
+                    "0.6561000", " ", 
+                    RowBox[{"0.7290000", "\n", "[", 
+                    RowBox[{"13", ","}], "]"}], " ", "0.2824295", " ", 
+                    "0.3138106", " ", "0.3486784", " ", "0.3874205", " ", 
+                    "0.4304672", " ", "0.4782969", " ", "0.5314410", " ", 
+                    "0.5904900", " ", 
+                    RowBox[{"0.6561000", "\n", "[", 
+                    RowBox[{"14", ","}], "]"}], " ", "0.2541866", " ", 
+                    "0.2824295", " ", "0.3138106", " ", "0.3486784", " ", 
+                    "0.3874205", " ", "0.4304672", " ", "0.4782969", " ", 
+                    "0.5314410", " ", 
+                    RowBox[{"0.5904900", "\n", "[", 
+                    RowBox[{"15", ","}], "]"}], " ", "0.2287679", " ", 
+                    "0.2541866", " ", "0.2824295", " ", "0.3138106", " ", 
+                    "0.3486784", " ", "0.3874205", " ", "0.4304672", " ", 
+                    "0.4782969", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"0.5314410", "\n", "[", 
+                    RowBox[{",", "10"}], "]"}], "[", 
+                    RowBox[{",", "11"}], "]"}], "[", 
+                    RowBox[{",", "12"}], "]"}], "[", 
+                    RowBox[{",", "13"}], "]"}], "[", 
+                    RowBox[{",", "14"}], "]"}], "[", 
+                    RowBox[{",", "15"}], "]"}], "\n", "[", 
+                    RowBox[{"1", ","}], "]"}], " ", "0.3874205", " ", 
+                    "0.3486784", " ", "0.3138106", " ", "0.2824295", " ", 
+                    "0.2541866", " ", 
+                    RowBox[{"0.2287679", "\n", "[", 
+                    RowBox[{"2", ","}], "]"}], " ", "0.4304672", " ", 
+                    "0.3874205", " ", "0.3486784", " ", "0.3138106", " ", 
+                    "0.2824295", " ", 
+                    RowBox[{"0.2541866", "\n", "[", 
+                    RowBox[{"3", ","}], "]"}], " ", "0.4782969", " ", 
+                    "0.4304672", " ", "0.3874205", " ", "0.3486784", " ", 
+                    "0.3138106", " ", 
+                    RowBox[{"0.2824295", "\n", "[", 
+                    RowBox[{"4", ","}], "]"}], " ", "0.5314410", " ", 
+                    "0.4782969", " ", "0.4304672", " ", "0.3874205", " ", 
+                    "0.3486784", " ", 
+                    RowBox[{"0.3138106", "\n", "[", 
+                    RowBox[{"5", ","}], "]"}], " ", "0.5904900", " ", 
+                    "0.5314410", " ", "0.4782969", " ", "0.4304672", " ", 
+                    "0.3874205", " ", 
+                    RowBox[{"0.3486784", "\n", "[", 
+                    RowBox[{"6", ","}], "]"}], " ", "0.6561000", " ", 
+                    "0.5904900", " ", "0.5314410", " ", "0.4782969", " ", 
+                    "0.4304672", " ", 
+                    RowBox[{"0.3874205", "\n", "[", 
+                    RowBox[{"7", ","}], "]"}], " ", "0.7290000", " ", 
+                    "0.6561000", " ", "0.5904900", " ", "0.5314410", " ", 
+                    "0.4782969", " ", 
+                    RowBox[{"0.4304672", "\n", "[", 
+                    RowBox[{"8", ","}], "]"}], " ", "0.8100000", " ", 
+                    "0.7290000", " ", "0.6561000", " ", "0.5904900", " ", 
+                    "0.5314410", " ", 
+                    RowBox[{"0.4782969", "\n", "[", 
+                    RowBox[{"9", ","}], "]"}], " ", "0.9000000", " ", 
+                    "0.8100000", " ", "0.7290000", " ", "0.6561000", " ", 
+                    "0.5904900", " ", 
+                    RowBox[{"0.5314410", "\n", "[", 
+                    RowBox[{"10", ","}], "]"}], " ", "1.0000000", " ", 
+                    "0.9000000", " ", "0.8100000", " ", "0.7290000", " ", 
+                    "0.6561000", " ", 
+                    RowBox[{"0.5904900", "\n", "[", 
+                    RowBox[{"11", ","}], "]"}], " ", "0.9000000", " ", 
+                    "1.0000000", " ", "0.9000000", " ", "0.8100000", " ", 
+                    "0.7290000", " ", 
+                    RowBox[{"0.6561000", "\n", "[", 
+                    RowBox[{"12", ","}], "]"}], " ", "0.8100000", " ", 
+                    "0.9000000", " ", "1.0000000", " ", "0.9000000", " ", 
+                    "0.8100000", " ", 
+                    RowBox[{"0.7290000", "\n", "[", 
+                    RowBox[{"13", ","}], "]"}], " ", "0.7290000", " ", 
+                    "0.8100000", " ", "0.9000000", " ", "1.0000000", " ", 
+                    "0.9000000", " ", 
+                    RowBox[{"0.8100000", "\n", "[", 
+                    RowBox[{"14", ","}], "]"}], " ", "0.6561000", " ", 
+                    "0.7290000", " ", "0.8100000", " ", "0.9000000", " ", 
+                    "1.0000000", " ", 
+                    RowBox[{"0.9000000", "\n", "[", 
+                    RowBox[{"15", ","}], "]"}], " ", "0.5904900", " ", 
+                    "0.6561000", " ", "0.7290000", " ", "0.8100000", " ", 
+                    "0.9000000", " ", "1.0000000"}], " ", "*)"}], 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{"C", ".1"}], ":", " ", 
+                    RowBox[{
+                    "Removing", " ", "only", " ", "the", " ", "11", "th", " ",
+                     "column"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"expecC1", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_"}], "]"}]}], " ", ":=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    RowBox[{"funcC1", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                    " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecC1", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7"}], "]"}]}], ")"}], "^", "2"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<C.1: Removing only 11th column:\>\"", 
+                    "]"}], "\[IndentingNewLine]", "truthC1"}], " ", "=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcC1", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{"C", ".2"}], ":", " ", 
+                    RowBox[{"Removing", " ", "1"}], ":", "5"}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"expecC2", "[", 
+                    RowBox[{"x6_", ",", " ", "x7_", ",", " ", "x11_"}], 
+                    "]"}]}], " ", ":=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    RowBox[{"funcC2", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                    " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecC2", "[", 
+                    RowBox[{"x6", ",", " ", "x7", ",", " ", "x11"}], "]"}]}], 
+                    ")"}], "^", "2"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<C.2: Removing columns 1-5:\>\"", "]"}],
+                     "\[IndentingNewLine]", "truthC2"}], " ", "=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcC2", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{"C", ".3"}], ":", " ", 
+                    RowBox[{"Removing", " ", "6"}], ":", "10"}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"expecC3", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", 
+                    "x11_"}], "]"}]}], " ", ":=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    RowBox[{"funcC3", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                    " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecC3", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x11"}], 
+                    "]"}]}], ")"}], "^", "2"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<C.3: Removing columns 6-10:\>\"", 
+                    "]"}], "\[IndentingNewLine]", "truthC3"}], " ", "=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcC3", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{"C", ".4"}], ":", " ", 
+                    RowBox[{"Removing", " ", "11"}], ":", "15"}], " ", "*)"}],
+                     "\[IndentingNewLine]", 
+                    RowBox[{"expecC4", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_"}], "]"}]}], " ", ":=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    RowBox[{"funcC4", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                    " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecC4", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7"}], "]"}]}], ")"}], "^", "2"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<C.4: Removing columns 11-15:\>\"", 
+                    "]"}], "\[IndentingNewLine]", "truthC4"}], " ", "=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcC4", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"C", ".5"}], ":", " ", 
+                    RowBox[{
+                    RowBox[{"Removing", " ", "1"}], "-", "3"}]}], ",", " ", 
+                    RowBox[{"6", "-", "7"}]}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"expecC5", "[", "x11_", "]"}]}], " ", ":=", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}]}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+                    RowBox[{"funcC5", "[", 
+                    RowBox[{
+                    "x1_", ",", " ", "x2_", ",", " ", "x3_", ",", " ", "x6_", 
+                    ",", " ", "x7_", ",", " ", "x11_"}], "]"}]}], " ", ":=", 
+                    " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"f1", "[", "x1", "]"}], " ", "+", " ", 
+                    RowBox[{"f2", "[", "x2", "]"}], " ", "+", " ", 
+                    RowBox[{"f3", "[", "x3", "]"}], " ", "+", " ", 
+                    RowBox[{"f6", "[", "x6", "]"}], " ", "+", " ", 
+                    RowBox[{"f7", "[", "x7", "]"}], " ", "+", " ", 
+                    RowBox[{"f11", "[", "x11", "]"}], " ", "-", " ", 
+                    RowBox[{"expecC5", "[", "x11", "]"}]}], ")"}], "^", "2"}],
+                     "\[IndentingNewLine]", 
+                    RowBox[{
+                    "Print", "[", "\"\<C.5: Removing columns 1-3, 6-7:\>\"", 
+                    "]"}], "\[IndentingNewLine]", "truthC5"}], "=", " ", 
+                    RowBox[{"Expectation", "[", 
+                    RowBox[{
+                    RowBox[{"funcC5", "[", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "]"}], ",", " ", 
+                    RowBox[{"Distributed", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "x1", ",", " ", "x2", ",", " ", "x3", ",", " ", "x6", ",",
+                     " ", "x7", ",", " ", "x11"}], "}"}], ",", " ", 
+                    RowBox[{"MultinormalDistribution", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", 
+                    " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "2"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "10"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{".9", ",", " ", "1", ",", " ", ".9", ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "2"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", 
+                    RowBox[{".9", "^", "3"}], ",", " ", "1", ",", " ", ".9", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "5"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "6"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", ".9", ",", " ", "1", 
+                    ",", " ", 
+                    RowBox[{".9", "^", "4"}]}], "}"}], ",", " ", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{".9", "^", "10"}], ",", " ", 
+                    RowBox[{".9", "^", "9"}], ",", " ", 
+                    RowBox[{".9", "^", "8"}], ",", " ", 
+                    RowBox[{".9", "^", "5"}], ",", " ", 
+                    RowBox[{".9", "^", "4"}], ",", " ", "1"}], "}"}]}], 
+                    "}"}]}], "]"}]}], "]"}]}], 
+                    "]"}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}\
+]}]}]}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.647086200058279*^9, 3.647086247612652*^9}, {
+   3.6470863231402655`*^9, 3.6470864633199506`*^9}, {3.647086529863222*^9, 
+   3.647086567522793*^9}, {3.6470866894447165`*^9, 3.6470867047972417`*^9}, {
+   3.64708674740469*^9, 3.6470868214072895`*^9}, {3.647087905586687*^9, 
+   3.647087931426427*^9}, {3.6470883599067345`*^9, 3.647088369030469*^9}, {
+   3.64708844400988*^9, 3.647088506829789*^9}, {3.647088551313673*^9, 
+   3.647088572054531*^9}, {3.647088624104365*^9, 3.6470886676440506`*^9}, {
+   3.6470888419170523`*^9, 3.6470891532645397`*^9}, {3.6470892716543746`*^9, 
+   3.647089276293811*^9}, {3.6470894914307942`*^9, 3.6470894934807568`*^9}, {
+   3.647089812252659*^9, 3.647089829547215*^9}, {3.6470898962916517`*^9, 
+   3.6470898982455225`*^9}, {3.647089949481592*^9, 3.647089991458782*^9}, {
+   3.6470901848669558`*^9, 3.6470902050068593`*^9}, {3.6470904862875586`*^9, 
+   3.647090565908892*^9}, {3.6470962881591325`*^9, 3.647096358767731*^9}, {
+   3.647096509488038*^9, 3.647096719852446*^9}, {3.647096820665962*^9, 
+   3.6470968983903832`*^9}, {3.6470969762849607`*^9, 
+   3.6470969841544952`*^9}, {3.6470970210107827`*^9, 3.647097037308386*^9}, 
+   3.6470971456350965`*^9, {3.6470972251071835`*^9, 3.6470972915988503`*^9}, {
+   3.647097350804535*^9, 3.647097361947205*^9}, {3.647097647315551*^9, 
+   3.647097665479557*^9}, {3.6470980014970016`*^9, 3.647098026834944*^9}, {
+   3.6470980984956455`*^9, 3.6470981066133146`*^9}, {3.6470981696798987`*^9, 
+   3.6470982140277987`*^9}, {3.6470982865923567`*^9, 3.647098295852105*^9}, {
+   3.647098511413431*^9, 3.647098617687175*^9}, {3.6470989282725396`*^9, 
+   3.6470990709411335`*^9}, {3.6470995519626784`*^9, 3.647099647810446*^9}, {
+   3.647120237108399*^9, 3.647120750381631*^9}, {3.647120781673979*^9, 
+   3.647120882426442*^9}, {3.6471209715727873`*^9, 3.6471209743894897`*^9}, {
+   3.6471216096103954`*^9, 3.6471216099156857`*^9}, {3.6471216461393695`*^9, 
+   3.647121659879524*^9}, {3.6471217591195393`*^9, 3.6471218262087727`*^9}, {
+   3.647121909705714*^9, 3.647121921251768*^9}, {3.6471220670893974`*^9, 
+   3.6471220715626802`*^9}, {3.6471221312698455`*^9, 3.647122244550298*^9}, {
+   3.647122282737864*^9, 3.6471223018911977`*^9}, {3.6471225486114187`*^9, 
+   3.6471225584358244`*^9}, {3.64712268902108*^9, 3.647122704896061*^9}, {
+   3.647122960422594*^9, 3.6471231373094907`*^9}, {3.647123234316332*^9, 
+   3.6471233206912994`*^9}, {3.647123356845475*^9, 3.647123359853307*^9}, {
+   3.6471236202378273`*^9, 3.647123630705844*^9}, {3.6471237024024963`*^9, 
+   3.64712370542838*^9}, {3.647123778038911*^9, 3.6471238251109715`*^9}, {
+   3.647123954798134*^9, 3.6471239964260015`*^9}, {3.6471240801311336`*^9, 
+   3.647124118803154*^9}, 3.6471241903016186`*^9, 3.647124221712696*^9, {
+   3.6471242543679523`*^9, 3.6471242801926775`*^9}, {3.647215457076208*^9, 
+   3.6472155006629395`*^9}, {3.647215874402767*^9, 3.6472158744558263`*^9}, {
+   3.6472159339417677`*^9, 3.6472161336089315`*^9}, {3.647216557571494*^9, 
+   3.647216598004184*^9}, {3.6472166581092057`*^9, 3.6472166583234043`*^9}, {
+   3.6472167816243386`*^9, 3.647216812507285*^9}, {3.6472169888849516`*^9, 
+   3.647217081615557*^9}, {3.647217399054446*^9, 3.647217558624214*^9}, 
+   3.6472197174100885`*^9, {3.6472197494938126`*^9, 3.647219795533792*^9}, {
+   3.6472199305260277`*^9, 3.647219956429827*^9}, {3.647220117222771*^9, 
+   3.6472201796915913`*^9}, {3.6472209870806065`*^9, 3.647220990484866*^9}, {
+   3.6472544173938613`*^9, 3.647254451901903*^9}, {3.6781045303096094`*^9, 
+   3.6781045548611307`*^9}, {3.6781048234804745`*^9, 3.678104969019906*^9}, {
+   3.678105088309188*^9, 3.67810508838426*^9}, {3.6781051208463593`*^9, 
+   3.678105478263777*^9}, {3.678105554913212*^9, 3.678105636868723*^9}, {
+   3.678105707560452*^9, 3.6781060037011623`*^9}, {3.6781060383483505`*^9, 
+   3.6781063917868323`*^9}, {3.678106446476606*^9, 3.6781065907262444`*^9}, {
+   3.678106645694458*^9, 3.6781068618658853`*^9}, {3.678106924683272*^9, 
+   3.67810703505962*^9}, {3.6781071745549927`*^9, 3.678107220401634*^9}, {
+   3.678107362369791*^9, 3.6781074889918666`*^9}, {3.678107549866191*^9, 
+   3.6781075917363005`*^9}, {3.6781076979600687`*^9, 
+   3.6781077065302734`*^9}, {3.6781078050836906`*^9, 3.67810782051548*^9}, {
+   3.678107874875556*^9, 3.67810794280864*^9}, {3.6781081396892514`*^9, 
+   3.678108142724159*^9}, {3.6781081758518963`*^9, 3.678108186571166*^9}, {
+   3.678108226159092*^9, 3.6781084602853928`*^9}, {3.6781085297329235`*^9, 
+   3.6781085913209314`*^9}, {3.6781086382018447`*^9, 
+   3.6781086620847254`*^9}, {3.6781086961583643`*^9, 
+   3.6781088647598877`*^9}, {3.678194898651546*^9, 3.678195067154982*^9}, {
+   3.6781951287019453`*^9, 3.678195531304644*^9}, {3.6781955638037815`*^9, 
+   3.6781955877437153`*^9}, 3.67819586034588*^9, {3.67819590238715*^9, 
+   3.6781959113067017`*^9}, {3.678195949076886*^9, 3.6781959499126873`*^9}, {
+   3.678196015624644*^9, 3.678196032618922*^9}, {3.6781960939947214`*^9, 
+   3.678196530372173*^9}, {3.678196844756771*^9, 3.678196910545971*^9}, {
+   3.678196971732808*^9, 3.678196991293299*^9}, {3.6781970262503586`*^9, 
+   3.6781970314722853`*^9}, {3.6781972125442142`*^9, 
+   3.6781972502811403`*^9}, {3.6781972847919893`*^9, 3.678197525789423*^9}, {
+   3.6782115241979265`*^9, 3.6782115615044374`*^9}, {3.6802093246418014`*^9, 
+   3.68020943269031*^9}, 3.6802097104642854`*^9, {3.6802098373095713`*^9, 
+   3.6802102876309986`*^9}, {3.6802103586263123`*^9, 
+   3.6802104157392535`*^9}, {3.680210576743064*^9, 3.6802106029572663`*^9}, {
+   3.68021066189406*^9, 3.680210851653303*^9}, {3.680265943739812*^9, 
+   3.6802659805542617`*^9}, {3.680266025154992*^9, 3.680266117871255*^9}, {
+   3.680266179910303*^9, 3.680266206227072*^9}, {3.681234769517782*^9, 
+   3.6812348686993313`*^9}, {3.681235254960879*^9, 3.681235344184654*^9}, {
+   3.6812355653327937`*^9, 3.681235566248661*^9}, {3.6812356567635546`*^9, 
+   3.681235664734157*^9}, {3.68123585714869*^9, 3.6812361132522364`*^9}, {
+   3.6812362591953287`*^9, 3.681236275562021*^9}, {3.681236383657775*^9, 
+   3.6812364171799684`*^9}, {3.6812367100170245`*^9, 3.681236715805586*^9}, {
+   3.6812369009202595`*^9, 3.6812369035577965`*^9}, {3.681237008976976*^9, 
+   3.681237012297162*^9}, {3.6812371165672445`*^9, 3.68123711992247*^9}, {
+   3.681237165605318*^9, 3.681237174408763*^9}, {3.6812372575936055`*^9, 
+   3.6812372591741233`*^9}, {3.6812373348037148`*^9, 
+   3.6812373408915606`*^9}, {3.6812374132740383`*^9, 
+   3.6812374404941587`*^9}, {3.681237503204353*^9, 3.6812375119907894`*^9}, {
+   3.681562801450487*^9, 3.6815630601461763`*^9}, {3.681563239555106*^9, 
+   3.6815632724172564`*^9}, {3.6815633088249865`*^9, 3.68156353933084*^9}, {
+   3.681563673874806*^9, 3.6815636989468656`*^9}, {3.681563861992367*^9, 
+   3.681563997528453*^9}, {3.6815642101395297`*^9, 3.6815642845259275`*^9}, {
+   3.68156552699949*^9, 3.6815655290944977`*^9}, {3.681565580409753*^9, 
+   3.6815658225231457`*^9}, {3.6815659632488937`*^9, 
+   3.6815661355561576`*^9}, {3.6815665605287995`*^9, 
+   3.6815665662611914`*^9}, {3.6815666269473257`*^9, 
+   3.6815667130273294`*^9}, {3.6815675971635017`*^9, 
+   3.6815678937962193`*^9}, {3.6815681179133344`*^9, 3.681568466812215*^9}, {
+   3.681568529468358*^9, 3.6815685296325154`*^9}, {3.681568833171857*^9, 
+   3.6815689155008783`*^9}, {3.681569209957507*^9, 3.681569232189847*^9}, {
+   3.681569300136069*^9, 3.68156938845083*^9}, {3.681569444015168*^9, 
+   3.681569452498311*^9}, {3.6815695324618692`*^9, 3.6815699520167933`*^9}, {
+   3.681570967942868*^9, 3.6815709858100176`*^9}, {3.6815711069542923`*^9, 
+   3.6815711094907246`*^9}, 3.6815715215262146`*^9, {3.681571560872981*^9, 
+   3.681571607594822*^9}}],
+
+Cell[BoxData["\<\"Expectation of X1:\"\>"], "Print",
+ CellChangeTimes->{3.681570989283352*^9}],
+
+Cell[BoxData[
+ FractionBox["1", 
+  SqrtBox["\[ExponentialE]"]]], "Output",
+ CellChangeTimes->{3.6815709900200586`*^9}],
+
+Cell[BoxData["\<\"Expectation of X2:\"\>"], "Print",
+ CellChangeTimes->{3.681570990024062*^9}],
+
+Cell[BoxData[
+ FractionBox["1", 
+  SuperscriptBox["\[ExponentialE]", "2"]]], "Output",
+ CellChangeTimes->{3.681570990367385*^9}],
+
+Cell[BoxData["\<\"Expectation of X3:\"\>"], "Print",
+ CellChangeTimes->{3.6815709903713923`*^9}],
+
+Cell[BoxData[
+ FractionBox["1", 
+  SuperscriptBox["\[ExponentialE]", "8"]]], "Output",
+ CellChangeTimes->{3.681570990731742*^9}],
+
+Cell[BoxData["\<\"Expectation of X6:\"\>"], "Print",
+ CellChangeTimes->{3.6815709907347393`*^9}],
+
+Cell[BoxData[
+ FractionBox["1", 
+  RowBox[{"2", " ", 
+   SqrtBox[
+    RowBox[{"2", " ", "\[Pi]"}]]}]]], "Output",
+ CellChangeTimes->{3.6815709909559507`*^9}],
+
+Cell[BoxData["\<\"Expectation of X7:\"\>"], "Print",
+ CellChangeTimes->{3.6815709909599543`*^9}],
+
+Cell[BoxData[
+ FractionBox["1", 
+  RowBox[{"2", " ", 
+   SqrtBox[
+    RowBox[{"2", " ", "\[Pi]"}]]}]]], "Output",
+ CellChangeTimes->{3.6815709911491423`*^9}],
+
+Cell[BoxData["\<\"Expectation of X11:\"\>"], "Print",
+ CellChangeTimes->{3.6815709911521535`*^9}],
+
+Cell[BoxData[
+ FractionBox["8", 
+  RowBox[{"3", " ", 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"8", "/", "9"}]]}]]], "Output",
+ CellChangeTimes->{3.681570991554527*^9}],
+
+Cell[BoxData["\<\"Effect size group 1:\"\>"], "Print",
+ CellChangeTimes->{3.6815709915585294`*^9}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"1", "+", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", "16"], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "2"}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", "8"], " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", "4"]}], "+", 
+         SuperscriptBox["\[ExponentialE]", "6"], "-", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", "7"]}], "+", 
+         RowBox[{"3", " ", 
+          SuperscriptBox["\[ExponentialE]", "8"]}]}], ")"}]}]}], ")"}]}]}], 
+  RowBox[{"2", " ", 
+   SuperscriptBox["\[ExponentialE]", "32"]}]]], "Output",
+ CellChangeTimes->{3.6815710273578963`*^9}],
+
+Cell[BoxData["\<\"Effect size group 2:\"\>"], "Print",
+ CellChangeTimes->{3.6815710273619003`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1185", "1024"], "-", 
+  FractionBox["1", 
+   RowBox[{"4", " ", "\[Pi]"}]]}]], "Output",
+ CellChangeTimes->{3.6815710416756334`*^9}],
+
+Cell[BoxData["\<\"Effect size group 3:\"\>"], "Print",
+ CellChangeTimes->{3.6815710416786366`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["2", "9"], " ", 
+  RowBox[{"(", 
+   RowBox[{"9", "+", 
+    FractionBox["55", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"32", "/", "9"}]]], "-", 
+    FractionBox["32", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"16", "/", "9"}]]]}], ")"}]}]], "Output",
+ CellChangeTimes->{3.681571046444214*^9}],
+
+Cell[BoxData["\<\"A.1: Removing column 11 only:\"\>"], "Print",
+ CellChangeTimes->{3.681571046449222*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["2", "9"], " ", 
+  RowBox[{"(", 
+   RowBox[{"9", "+", 
+    FractionBox["55", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"32", "/", "9"}]]], "-", 
+    FractionBox["32", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"16", "/", "9"}]]]}], ")"}]}]], "Output",
+ CellChangeTimes->{3.6815710471899405`*^9}],
+
+Cell[BoxData["\<\"A.2: Removing columns 1-5:\"\>"], "Print",
+ CellChangeTimes->{3.6815710471939354`*^9}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"1", "+", 
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", "16"], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "2"}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", "8"], " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", "4"]}], "+", 
+         SuperscriptBox["\[ExponentialE]", "6"], "-", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["\[ExponentialE]", "7"]}], "+", 
+         RowBox[{"3", " ", 
+          SuperscriptBox["\[ExponentialE]", "8"]}]}], ")"}]}]}], ")"}]}]}], 
+  RowBox[{"2", " ", 
+   SuperscriptBox["\[ExponentialE]", "32"]}]]], "Output",
+ CellChangeTimes->{3.6815710796851215`*^9}],
+
+Cell[BoxData["\<\"A.2: Removing columns 6-10:\"\>"], "Print",
+ CellChangeTimes->{3.6815710796891193`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1185", "1024"], "-", 
+  FractionBox["1", 
+   RowBox[{"4", " ", "\[Pi]"}]]}]], "Output",
+ CellChangeTimes->{3.681571088883952*^9}],
+
+Cell[BoxData["\<\"A.2: Removing columns 11-15:\"\>"], "Print",
+ CellChangeTimes->{3.681571088887951*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["2", "9"], " ", 
+  RowBox[{"(", 
+   RowBox[{"9", "+", 
+    FractionBox["55", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"32", "/", "9"}]]], "-", 
+    FractionBox["32", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"16", "/", "9"}]]]}], ")"}]}]], "Output",
+ CellChangeTimes->{3.6815710902522645`*^9}],
+
+Cell[BoxData["\<\"A.5: Removing columns 1-3, 6-7:\"\>"], "Print",
+ CellChangeTimes->{3.681571090256268*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["2721", "1024"], "+", 
+  FractionBox["1", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[ExponentialE]", "32"]}]], "-", 
+  FractionBox["1", 
+   SuperscriptBox["\[ExponentialE]", "16"]], "+", 
+  FractionBox["1", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[ExponentialE]", "8"]}]], "-", 
+  FractionBox["1", 
+   SuperscriptBox["\[ExponentialE]", "4"]], "+", 
+  FractionBox["1", 
+   RowBox[{"2", " ", 
+    SuperscriptBox["\[ExponentialE]", "2"]}]], "-", 
+  FractionBox["1", "\[ExponentialE]"], "-", 
+  FractionBox["1", 
+   RowBox[{"4", " ", "\[Pi]"}]]}]], "Output",
+ CellChangeTimes->{3.6815714668837647`*^9}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6812366151559796`*^9, 3.681236616394168*^9}, {
+  3.6812367247021255`*^9, 3.6812367269652977`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{
+  3.680266005278669*^9, {3.6812349536510334`*^9, 3.6812349548590384`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.681234947748121*^9, 3.681234949268386*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6812349338245325`*^9, 3.681234935429868*^9}},
+ NumberMarks->False],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.681234938741619*^9, 3.681234942316594*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104561383379*^9, 3.6781045614114046`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045634553986`*^9, 3.678104565858666*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045669977775`*^9, 3.678104567018783*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104568212927*^9, 3.678104568235961*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045698865395`*^9, 3.6781045716402054`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045728453617`*^9, 3.6781045728663807`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104573806286*^9, 3.678104578269556*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104579449687*^9, 3.6781045794697065`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045814276166`*^9, 3.6781045814436026`*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104583705765*^9, 3.678104583717781*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104585227225*^9, 3.678104588358221*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045898186207`*^9, 3.678104589834638*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045976080837`*^9, 3.6781045976231*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.678104591944658*^9, 3.678104591960672*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6781045933900423`*^9, 3.6781045934050617`*^9}}],
+
+Cell[BoxData["\[IndentingNewLine]"], "Input",
+ CellChangeTimes->{{3.647219828138998*^9, 3.6472198281470075`*^9}, {
+   3.6472544746476774`*^9, 3.647254518830988*^9}, 3.6781045958864346`*^9}]
+},
+WindowSize->{1366, 745},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+ShowCellTags->True,
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 108559, 2245, 5281, "Input"],
+Cell[109141, 2269, 94, 1, 23, "Print"],
+Cell[109238, 2272, 118, 3, 51, "Output"],
+Cell[109359, 2277, 94, 1, 23, "Print"],
+Cell[109456, 2280, 128, 3, 47, "Output"],
+Cell[109587, 2285, 96, 1, 23, "Print"],
+Cell[109686, 2288, 128, 3, 47, "Output"],
+Cell[109817, 2293, 96, 1, 23, "Print"],
+Cell[109916, 2296, 157, 5, 51, "Output"],
+Cell[110076, 2303, 96, 1, 23, "Print"],
+Cell[110175, 2306, 157, 5, 51, "Output"],
+Cell[110335, 2313, 97, 1, 23, "Print"],
+Cell[110435, 2316, 177, 5, 48, "Output"],
+Cell[110615, 2323, 98, 1, 23, "Print"],
+Cell[110716, 2326, 746, 21, 53, "Output"],
+Cell[111465, 2349, 98, 1, 23, "Print"],
+Cell[111566, 2352, 170, 5, 47, "Output"],
+Cell[111739, 2359, 98, 1, 23, "Print"],
+Cell[111840, 2362, 356, 11, 46, "Output"],
+Cell[112199, 2375, 105, 1, 23, "Print"],
+Cell[112307, 2378, 358, 11, 46, "Output"],
+Cell[112668, 2391, 104, 1, 23, "Print"],
+Cell[112775, 2394, 746, 21, 53, "Output"],
+Cell[113524, 2417, 105, 1, 23, "Print"],
+Cell[113632, 2420, 168, 5, 47, "Output"],
+Cell[113803, 2427, 104, 1, 23, "Print"],
+Cell[113910, 2430, 358, 11, 46, "Output"],
+Cell[114271, 2443, 107, 1, 23, "Print"],
+Cell[114381, 2446, 642, 19, 80, "Output"]
+}, Open  ]],
+Cell[115038, 2468, 147, 2, 31, "Input"],
+Cell[115188, 2472, 121, 2, 31, "Input"],
+Cell[115312, 2476, 92, 1, 31, "Input"],
+Cell[115407, 2479, 115, 2, 31, "Input"],
+Cell[115525, 2483, 92, 1, 31, "Input"],
+Cell[115620, 2486, 94, 1, 31, "Input"],
+Cell[115717, 2489, 94, 1, 31, "Input"],
+Cell[115814, 2492, 94, 1, 31, "Input"],
+Cell[115911, 2495, 92, 1, 31, "Input"],
+Cell[116006, 2498, 96, 1, 31, "Input"],
+Cell[116105, 2501, 96, 1, 31, "Input"],
+Cell[116204, 2504, 92, 1, 31, "Input"],
+Cell[116299, 2507, 94, 1, 31, "Input"],
+Cell[116396, 2510, 96, 1, 31, "Input"],
+Cell[116495, 2513, 92, 1, 31, "Input"],
+Cell[116590, 2516, 92, 1, 31, "Input"],
+Cell[116685, 2519, 94, 1, 31, "Input"],
+Cell[116782, 2522, 92, 1, 31, "Input"],
+Cell[116877, 2525, 92, 1, 31, "Input"],
+Cell[116972, 2528, 96, 1, 31, "Input"],
+Cell[117071, 2531, 189, 2, 52, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
