@@ -14,13 +14,8 @@
 ## DDMMYY    INIT    COMMENTS
 ## ---------------------------
 ##############################################################################################################################
-if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
-  setwd("~/vimpaper_supplement/code/sims/lowdim/")
-  null <- 0
-}
-
 library(readr)
-source("~/vimpaper_supplement/code/sims/simulation_helper_functions.R")
+source("simulation_helper_functions.R")
 
 # get command line argument
 if (is.na(Sys.getenv("RSTUDIO", unset = NA))) {

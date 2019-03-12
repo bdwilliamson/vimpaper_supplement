@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python2.7 simulation_hidim_twostep.py
+python2.7 sim_moddim.py
