@@ -12,9 +12,9 @@ All analyses in this directory are run in R. The necessary code for this analysi
 
 ### Reproducing Sections 3.1 and 3.2: experiments with a low-dimensional vector of features
 
-To reproduce the analyses, run the following code in sequence:
+These analyses are run in R version 3.2.2. To reproduce the analyses, run the following code in sequence:
 
-1. `./lowdim/shell/submit_sim_loess_0.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code the performs these analyses is in 
+1. `./lowdim/shell/submit_sim_loess_0.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in 
     * `sim_loess_0.R`: sets up simulation parameters, runs the simulation for multiple Monte-Carlo replications
     * `sim_loess_0_data.R`: generate a dataset for the simulation
     * `sim_loess_0_ests.R`: calculate the point and interval estimators
@@ -24,9 +24,9 @@ To reproduce the analyses, run the following code in sequence:
 
 ### Reproducing Section S3.2: experiments with cross-validation on a low-dimensional vector of covariates
 
-To reproduce the analyses, run the following code in sequence:
+These analyses are run in R version 3.4.2. To reproduce the analyses, run the following code in sequence:
 
-1. `./lowdim/shell/submit_sim_loess_0.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code the performs these analyses is in 
+1. `./lowdim/shell/submit_sim_cv.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in 
     * `sim_cv.R`: sets up simulation parameters, runs the simulation for multiple Monte-Carlo replications
     * `sim_loess_0_data.R`: generate a dataset for the simulation
     * `sim_cv_ests.R`: calculate the point and interval estimators using cross-validation
@@ -38,7 +38,7 @@ To reproduce the analyses, run the following code in sequence:
 
 ## The `moddim` directory
 
-All analyses in this directory are run in Python. The necessary code for this analysis is located in `moddim/R` and `moddim/shell`. In these files, we assume that you use a Linux cluster with the Slurm batch scheduling system. If you use a difference batch scheduling system, the individual code files are flagged with the line where you can change batch variables. If you prefer to run the analyses locally, you may -- however, these analyses will then take a large amount of time.
+All analyses in this directory are run in Python 2.7. The necessary code for this analysis is located in `moddim/R` and `moddim/shell`. In these files, we assume that you use a Linux cluster with the Slurm batch scheduling system. If you use a difference batch scheduling system, the individual code files are flagged with the line where you can change batch variables. If you prefer to run the analyses locally, you may -- however, these analyses will then take a large amount of time.
 
 ### Reproducing Sections 3.3 and S4: experiments with a moderate-dimensional vector of features
 
@@ -53,4 +53,7 @@ python pip install vimpy
 
 Then run the following code in sequence:
 
-1. 
+1. `./moddim/shell/submit_sim_mod.sh`: submits experiments to Slurm cluster; the code that performs the analyses is:
+    * `sim_moddim.py`: runs the simulation for a number of Monte-Carlo replicates
+    * `sim_moddim_ests.py`: computes the naive and corrected estimators of variable importance
+2. `./moddim/R/load_sim_moddim.R`: loads results of the experiment and produces plots
