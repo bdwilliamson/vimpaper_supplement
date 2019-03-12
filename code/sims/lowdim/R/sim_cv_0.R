@@ -51,6 +51,8 @@ do.one <- function(n, p = 2, null, j, h.f.l, h.m.l, b){
   return(estVec)
 }
 
+## at this point, if you use a different job scheduler, put in the correct environment variable
+## if you want to run locally, set job.id manually
 job.id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 hs.df <- read.csv("oracle_bandwidths_fine_spread.csv")
 hs.df.2 <- read.csv("oracle_bandwidths_fine_spread_smalln.csv")

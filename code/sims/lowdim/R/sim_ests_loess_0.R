@@ -125,7 +125,7 @@ calculateEsts <- function(data, truth, n, j, h.f.l, h.m.l, b){
   fhat.minus.lo <- fitted(minusmod.lo)
   
   ## calculate the estimates for naive and onestep
-  ests.lo <- variableImportance(fhat.lo, fhat.minus.lo, data$y, standardized = TRUE)
+  ests.lo <- vimp::vimp_regression(fhat.lo, fhat.minus.lo, data$y, standardized = TRUE)
 
   naive.lo <- mean((fhat.lo - fhat.minus.lo)^2)/mean((data$y - mean(data$y))^2)
   
