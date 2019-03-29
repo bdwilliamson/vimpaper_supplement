@@ -148,7 +148,7 @@ ci.std <- rbind(ci.access.std, ci.age.std, ci.black.std, ci.chas.std, ci.crim.st
                 ci.rad.std, ci.rm.std, ci.str.std, ci.tax.std, ci.zin.std)
 
 mat.std <- data.frame(cbind(est.std, se.std, ci.std))
-names(mat.std) <- c("naive", "onestep", "se", "CIL", "CIU")
+names(mat.std) <- c("onestep", "naive", "se", "CIL", "CIU")
 mat.std
 
 ## plot of each with 95% CI around it
