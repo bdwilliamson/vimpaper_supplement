@@ -1,6 +1,6 @@
 ## Supplementary materials for the `vimp` paper
 
-This repository contains code to reproduce the analyses in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Simon, and Carone. All analyses were implemented in the freely available R and Python programming languages.
+This repository contains code to reproduce the analyses in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Carone, and Simon. All analyses were implemented in the freely available R and Python programming languages.
 
 This README file provides an overview of the code available in the repository.  
 
