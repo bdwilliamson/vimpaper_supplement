@@ -1,4 +1,4 @@
-## Data analyses in the `vimp` paper
+## Data analyses in the R-squared `vimp` paper
 
 This repository contains code to reproduce the data analyses in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
 
