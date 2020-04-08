@@ -1,6 +1,6 @@
 ## Numerical experiments for the `vimp` paper
 
-This repository contains code to reproduce the numerical experiments in Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020) ["Nonparametric variable importance assessment using machine learning techniques"](). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
+This repository contains code to reproduce the numerical experiments in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
 
 This README file provides an overview of the code available in the repository.  
 

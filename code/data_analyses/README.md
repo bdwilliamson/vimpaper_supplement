@@ -1,6 +1,6 @@
 ## Data analyses in the `vimp` paper
 
-This repository contains code to reproduce the data analyses in Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020) ["Nonparametric variable importance assessment using machine learning techniques"](). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
+This repository contains code to reproduce the data analyses in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
 
 This README file provides an overview of the code available in the repository. All analyses in this directory are run in R. The necessary code for this analysis is located in `lowdim/R` and `lowdim/shell`. In these files, we assume that you use a Linux cluster with the Slurm batch scheduling system. If you use a difference batch scheduling system, the individual code files are flagged with the line where you can change batch variables. If you prefer to run the analyses locally, you may -- however, these analyses will then take a large amount of time.
 
