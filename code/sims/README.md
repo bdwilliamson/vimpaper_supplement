@@ -1,6 +1,6 @@
 ## Numerical experiments for the `vimp` paper
 
-This repository contains code to reproduce the numerical experiments in "Nonparametric variable importance assessment using machine learning techniques" by Williamson, Gilbert, Simon, and Carone. All analyses were implemented in the freely available R and Python programming languages.
+This repository contains code to reproduce the numerical experiments in Williamson, Gilbert, Carone, and Simon (*Biometrics*, 2020) ["Nonparametric variable importance assessment using machine learning techniques"](). All analyses were implemented in the freely available R and Python programming languages, and use the R package `vimp` version 1.1.6 and Python package `vimpy` version 1.0.0.
 
 This README file provides an overview of the code available in the repository.  
 
@@ -16,11 +16,11 @@ The true values of the parameter of interest may be calculated analytically.
 
 These analyses are run in R version 3.2.2. To reproduce the analyses, run the following code in sequence:
 
-1. `./lowdim/shell/submit_sim_loess_0.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in 
+1. `./lowdim/shell/submit_sim_loess_0.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in
     * `sim_loess_0.R`: sets up simulation parameters, runs the simulation for multiple Monte-Carlo replications
     * `sim_loess_0_data.R`: generate a dataset for the simulation
     * `sim_loess_0_ests.R`: calculate the point and interval estimators
-    * `sim_loess_0_naives.R`: calculate the naive ANOVA-based estimator of importance (for bootstrapping) 
+    * `sim_loess_0_naives.R`: calculate the naive ANOVA-based estimator of importance (for bootstrapping)
 2. `./lowdim/shell/load_sim_lowdim.sh`: loads the results of the experiment, and produces plots
 
 
@@ -28,7 +28,7 @@ These analyses are run in R version 3.2.2. To reproduce the analyses, run the fo
 
 These analyses are run in R version 3.4.2. To reproduce the analyses, run the following code in sequence:
 
-1. `./lowdim/shell/submit_sim_cv.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in 
+1. `./lowdim/shell/submit_sim_cv.sh`: submits experiments for both section 3.1 (with no null features) and 3.2 (with one null feature); the code that performs these analyses is in
     * `sim_cv.R`: sets up simulation parameters, runs the simulation for multiple Monte-Carlo replications
     * `sim_loess_0_data.R`: generate a dataset for the simulation
     * `sim_cv_ests.R`: calculate the point and interval estimators using cross-validation
@@ -53,7 +53,7 @@ virtualenv venv
 venv/bin/activate
 
 python pip install vimpy
-``` 
+```
 
 Then run the following code in sequence:
 
